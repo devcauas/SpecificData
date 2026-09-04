@@ -1,0 +1,66 @@
+---
+import type { Post } from '../lib/posts';
+import { getCategory } from '../data/categories';
+
+interface Props {
+  post: Post;
+}
+
+const { post } = Astro.props;
+const { data, id } = post;
+const category = getCategory(data.category);
+
+const dateFormatter = new Intl.DateTimeFormat('pt-BR', {
+  day: '2-digit',
+  month: 'short',
+  year: 'numeric',
+});
+---
+
+<li class="post-card" data-category={data.category}>
+  <a class="post-card-title" href={`/blog/${id}`}>{data.title}</a>
+  <p class="post-card-description">{data.description}</p>
+  <p class="post-card-meta">
+    <span>{category.label}</span>
+    <span aria-hidden="true"> · </span>
+    <time datetime={data.date.toISOString()}>{dateFormatter.format(data.date)}</time>
+  </p>
+</li>
+
+<style>
+  .post-card {
+    padding-block: 1.5rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .post-card:first-child {
+    padding-top: 0;
+  }
+
+  .post-card-title {
+    display: inline-block;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 1.15rem;
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: var(--rule);
+    text-underline-offset: 0.15em;
+  }
+
+  .post-card-title:hover {
+    text-decoration-color: currentColor;
+  }
+
+  .post-card-description {
+    margin-top: 0.4rem;
+    color: var(--muted);
+  }
+
+  .post-card-meta {
+    margin-top: 0.6rem;
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+</style>

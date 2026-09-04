@@ -1,0 +1,48 @@
+---
+import Base from '../../layouts/Base.astro';
+import PostCard from '../../components/PostCard.astro';
+import { site } from '../../data/site';
+import { getAllTags, getPostsByTag } from '../../lib/posts';
+
+export async function getStaticPaths() {
+  const tags = await getAllTags();
+  return Promise.all(
+    tags.map(async (tag) => ({
+      params: { tag },
+      props: { posts: await getPostsByTag(tag) },
+    })),
+  );
+}
+
+interface Props {
+  posts: Awaited<ReturnType<typeof getPostsByTag>>;
+}
+
+const { tag } = Astro.params;
+const { posts } = Astro.props;
+---
+
+<Base title={`#${tag}`} description={`Posts com a tag "${tag}" no ${site.name}.`}>
+  <h1>#{tag}</h1>
+  <p class="count">{posts.length} {posts.length === 1 ? 'post' : 'posts'}</p>
+
+  <ul class="posts">
+    {posts.map((post) => <PostCard post={post} />)}
+  </ul>
+</Base>
+
+<style>
+  h1 {
+    margin-bottom: 0.5rem;
+  }
+
+  .count {
+    font-family: var(--font-sans);
+    color: var(--muted);
+    margin-bottom: 2rem;
+  }
+
+  .posts {
+    list-style: none;
+  }
+</style>

@@ -1,0 +1,116 @@
+---
+import Head from '../components/Head.astro';
+import { site } from '../data/site';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  type?: 'website' | 'article';
+  publishedDate?: Date;
+  updatedDate?: Date;
+  image?: string;
+}
+
+const { title, description, type, publishedDate, updatedDate, image } = Astro.props;
+---
+
+<html lang="pt-BR">
+  <head>
+    <Head
+      title={title}
+      description={description}
+      type={type}
+      publishedDate={publishedDate}
+      updatedDate={updatedDate}
+      image={image}
+    />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <a href="/" class="site-name">{site.name}</a>
+        <nav>
+          <a href="/blog">Blog</a>
+          <a href="/sobre">Sobre</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>{site.author.name}</p>
+        <nav>
+          <a href={site.author.github} rel="noopener noreferrer">GitHub</a>
+          <a href={site.author.linkedin} rel="noopener noreferrer">LinkedIn</a>
+          <a href="/rss.xml">RSS</a>
+        </nav>
+      </div>
+    </footer>
+  </body>
+</html>
+
+<style>
+  .container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  .site-header,
+  .site-footer {
+    font-family: var(--font-sans);
+  }
+
+  .site-header .container,
+  .site-footer .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .site-header {
+    border-bottom: 1px solid var(--rule);
+    padding-block: 1rem;
+  }
+
+  .site-name {
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .site-header nav,
+  .site-footer nav {
+    display: flex;
+    gap: 1.25rem;
+  }
+
+  .site-header nav a,
+  .site-footer nav a {
+    text-decoration: none;
+    color: var(--muted);
+  }
+
+  .site-header nav a:hover,
+  .site-footer nav a:hover {
+    color: var(--ink);
+  }
+
+  main {
+    padding-block: 2rem;
+    min-height: 60vh;
+  }
+
+  .site-footer {
+    border-top: 1px solid var(--rule);
+    padding-block: 1.5rem;
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+</style>

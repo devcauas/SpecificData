@@ -1,0 +1,78 @@
+---
+import { site } from '../data/site';
+
+interface Props {
+  title: string;
+  description: string;
+  type?: 'website' | 'article';
+  publishedDate?: Date;
+  updatedDate?: Date;
+  image?: string;
+}
+
+const {
+  title,
+  description,
+  type = 'website',
+  publishedDate,
+  updatedDate,
+  image,
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, site.url);
+const ogImage = new URL(image ?? '/og/default.png', site.url);
+const pageTitle = title === site.name ? title : `${title} · ${site.name}`;
+
+const jsonLd =
+  type === 'article' && publishedDate
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'BlogPosting',
+        headline: title,
+        description,
+        datePublished: publishedDate.toISOString(),
+        dateModified: (updatedDate ?? publishedDate).toISOString(),
+        author: {
+          '@type': 'Person',
+          name: site.author.name,
+        },
+        publisher: {
+          '@type': 'Organization',
+          name: site.name,
+        },
+        mainEntityOfPage: canonicalURL.toString(),
+        image: ogImage.toString(),
+      }
+    : null;
+
+// JSON.stringify não escapa o caractere de abertura de tag, então um valor com
+// "</script>" quebraria a tag; escapar para < evita isso sem alterar o JSON.
+const jsonLdScript = jsonLd ? JSON.stringify(jsonLd).replace(/</g, '\\u003c') : null;
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<meta name="generator" content={Astro.generator} />
+
+<title>{pageTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonicalURL} />
+
+<link rel="alternate" type="application/rss+xml" title={site.name} href="/rss.xml" />
+
+<meta property="og:type" content={type === 'article' ? 'article' : 'website'} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:site_name" content={site.name} />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+
+{jsonLdScript && <script type="application/ld+json" set:html={jsonLdScript} />}

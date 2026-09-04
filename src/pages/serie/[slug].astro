@@ -1,0 +1,101 @@
+---
+import Base from '../../layouts/Base.astro';
+import { series, getSeries } from '../../data/series';
+import { getSeriesPosts } from '../../lib/posts';
+
+export async function getStaticPaths() {
+  return series.map((s) => ({ params: { slug: s.slug } }));
+}
+
+const { slug } = Astro.params;
+const seriesInfo = getSeries(slug as string);
+const posts = await getSeriesPosts(seriesInfo.slug);
+---
+
+<Base title={seriesInfo.title} description={seriesInfo.description}>
+  <header class="series-header">
+    <h1>{seriesInfo.title}</h1>
+    <p class="series-description">{seriesInfo.description}</p>
+  </header>
+
+  <ol class="series-posts">
+    {
+      posts.map((post) => {
+        const isPublished = !post.data.draft;
+        return (
+          <li>
+            <span class="order">{post.data.series?.order}</span>
+            <div class="post-info">
+              {isPublished ? (
+                <a class="title" href={`/blog/${post.id}`}>
+                  {post.data.title}
+                </a>
+              ) : (
+                <span class="title pending">{post.data.title}</span>
+              )}
+              {isPublished && <p class="description">{post.data.description}</p>}
+            </div>
+          </li>
+        );
+      })
+    }
+  </ol>
+</Base>
+
+<style>
+  .series-header {
+    max-width: 60ch;
+    margin-bottom: 2.5rem;
+  }
+
+  .series-description {
+    color: var(--muted);
+    margin-top: 0.75rem;
+  }
+
+  .series-posts {
+    list-style: none;
+  }
+
+  .series-posts li {
+    display: flex;
+    gap: 1rem;
+    padding-block: 1.25rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .series-posts li:first-child {
+    padding-top: 0;
+  }
+
+  .order {
+    font-family: var(--font-mono);
+    color: var(--muted);
+    min-width: 1.5em;
+  }
+
+  .title {
+    display: inline-block;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: var(--rule);
+    text-underline-offset: 0.15em;
+  }
+
+  a.title:hover {
+    text-decoration-color: currentColor;
+  }
+
+  .title.pending {
+    color: var(--muted);
+    text-decoration: none;
+  }
+
+  .description {
+    margin-top: 0.4rem;
+    color: var(--muted);
+  }
+</style>

@@ -1,0 +1,114 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { getSeriesNeighbors } from '../lib/posts';
+import { getSeries } from '../data/series';
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+
+if (!post.data.series) throw new Error('SeriesNav requer um post que pertence a uma série.');
+
+const seriesInfo = getSeries(post.data.series.slug);
+const neighbors = await getSeriesNeighbors(post);
+---
+
+<nav class="series-nav" aria-label={`Navegação dentro da série ${seriesInfo.title}`}>
+  <div class="series-nav-links">
+    {
+      neighbors?.prev && (
+        <a class="series-nav-link series-nav-prev" href={`/blog/${neighbors.prev.id}`}>
+          <span class="series-nav-label">Anterior</span>
+          <span class="series-nav-title">{neighbors.prev.data.title}</span>
+        </a>
+      )
+    }
+
+    {
+      neighbors?.next ? (
+        <a class="series-nav-link series-nav-next" href={`/blog/${neighbors.next.id}`}>
+          <span class="series-nav-label">Próximo</span>
+          <span class="series-nav-title">{neighbors.next.data.title}</span>
+        </a>
+      ) : (
+        <p class="series-nav-end">Este é o último post publicado da série até agora.</p>
+      )
+    }
+  </div>
+
+  <a class="series-nav-index" href={`/serie/${seriesInfo.slug}`}>
+    Ver todos os posts de "{seriesInfo.title}"
+  </a>
+</nav>
+
+<style>
+  .series-nav {
+    font-family: var(--font-sans);
+    border-top: 1px solid var(--rule);
+    padding-top: 1.5rem;
+  }
+
+  .series-nav-links {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .series-nav-link {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    text-decoration: none;
+    color: var(--ink);
+  }
+
+  .series-nav-next {
+    grid-column: 2;
+    text-align: right;
+  }
+
+  .series-nav-label {
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+
+  .series-nav-title {
+    text-decoration: underline;
+    text-decoration-color: var(--rule);
+  }
+
+  .series-nav-link:hover .series-nav-title {
+    text-decoration-color: currentColor;
+  }
+
+  .series-nav-end {
+    grid-column: 2;
+    color: var(--muted);
+    text-align: right;
+    margin: 0;
+  }
+
+  .series-nav-index {
+    display: inline-block;
+    margin-top: 1.5rem;
+    color: var(--muted);
+  }
+
+  .series-nav-index:hover {
+    color: var(--ink);
+  }
+
+  @media (max-width: 40rem) {
+    .series-nav-links {
+      grid-template-columns: 1fr;
+    }
+
+    .series-nav-next,
+    .series-nav-end {
+      grid-column: 1;
+      text-align: left;
+    }
+  }
+</style>

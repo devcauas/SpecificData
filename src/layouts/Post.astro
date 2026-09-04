@@ -1,0 +1,153 @@
+---
+import { render, type CollectionEntry } from 'astro:content';
+import Base from './Base.astro';
+import Prose from '../components/Prose.astro';
+import SeriesNav from '../components/SeriesNav.astro';
+import { getSeries } from '../data/series';
+import { getReadingTime, getSeriesNeighbors } from '../lib/posts';
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+const { data, body } = post;
+
+const { Content } = await render(post);
+const readingTime = getReadingTime(body ?? '');
+const seriesInfo = data.series ? getSeries(data.series.slug) : null;
+const neighbors = data.series ? await getSeriesNeighbors(post) : null;
+
+const dateFormatter = new Intl.DateTimeFormat('pt-BR', {
+  day: '2-digit',
+  month: 'long',
+  year: 'numeric',
+});
+---
+
+<Base
+  title={data.title}
+  description={data.description}
+  type="article"
+  publishedDate={data.date}
+  updatedDate={data.updated}
+  image={`/og/${post.id}.png`}
+>
+  <article class="post">
+    {
+      seriesInfo && neighbors && (
+        <p class="series-bar">
+          <a href={`/serie/${seriesInfo.slug}`}>{seriesInfo.title}</a>
+          <span aria-hidden="true"> · </span>
+          <span>
+            parte {neighbors.index} de {neighbors.total}
+          </span>
+        </p>
+      )
+    }
+
+    <header class="post-header">
+      <h1>{data.title}</h1>
+      <p class="post-description">{data.description}</p>
+      <p class="post-meta">
+        <time datetime={data.date.toISOString()}>{dateFormatter.format(data.date)}</time>
+        <span aria-hidden="true"> · </span>
+        <span>{readingTime} min de leitura</span>
+      </p>
+    </header>
+
+    <Prose>
+      <Content />
+    </Prose>
+
+    <footer class="post-footer">
+      {seriesInfo && <SeriesNav post={post} />}
+
+      {
+        data.tags.length > 0 && (
+          <ul class="tags">
+            {data.tags.map((tag) => (
+              <li>
+                <a href={`/tag/${tag}`}>{tag}</a>
+              </li>
+            ))}
+          </ul>
+        )
+      }
+    </footer>
+  </article>
+</Base>
+
+<style>
+  .post {
+    max-width: var(--container-width);
+  }
+
+  .series-bar {
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    margin: 0 0 1rem;
+  }
+
+  .series-bar a {
+    color: var(--muted);
+    text-decoration: underline;
+    text-decoration-color: var(--rule);
+  }
+
+  .series-bar a:hover {
+    color: var(--ink);
+    text-decoration-color: currentColor;
+  }
+
+  .series-bar span {
+    color: var(--muted);
+  }
+
+  .post-header {
+    max-width: 68ch;
+    margin-bottom: 2.5rem;
+  }
+
+  .post-header h1 {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .post-description {
+    color: var(--muted);
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .post-meta {
+    font-family: var(--font-sans);
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin: 0;
+  }
+
+  .post-footer {
+    margin-top: 3rem;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+  }
+
+  .tags a {
+    color: var(--muted);
+    text-decoration: underline;
+    text-decoration-color: var(--rule);
+  }
+
+  .tags a:hover {
+    color: var(--ink);
+    text-decoration-color: currentColor;
+  }
+</style>

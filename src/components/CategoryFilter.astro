@@ -1,0 +1,170 @@
+---
+import type { Post } from '../lib/posts';
+import { categories } from '../data/categories';
+import PostCard from './PostCard.astro';
+
+interface Props {
+  posts: Post[];
+}
+
+const { posts } = Astro.props;
+
+const counts = categories.map((category) => ({
+  ...category,
+  count: posts.filter((post) => post.data.category === category.slug).length,
+}));
+
+/** Lista agrupada por ano quando passar de 20 posts (BRIEF §5, Arquivo). */
+const groupByYear = posts.length > 20;
+
+function groupPostsByYear(list: Post[]) {
+  const groups = new Map<number, Post[]>();
+  for (const post of list) {
+    const year = post.data.date.getFullYear();
+    if (!groups.has(year)) groups.set(year, []);
+    groups.get(year)!.push(post);
+  }
+  return [...groups.entries()].sort((a, b) => b[0] - a[0]);
+}
+
+const yearGroups = groupByYear ? groupPostsByYear(posts) : null;
+---
+
+<div class="archive">
+  <div class="filter-bar" role="group" aria-label="Filtrar por categoria">
+    <input type="radio" name="category-filter" id="filter-all" class="filter-radio" checked />
+    <label for="filter-all">Todos <span class="count">{posts.length}</span></label>
+
+    {
+      counts.map((category) => (
+        <>
+          <input
+            type="radio"
+            name="category-filter"
+            id={`filter-${category.slug}`}
+            class="filter-radio"
+          />
+          <label for={`filter-${category.slug}`}>
+            {category.shortLabel} <span class="count">{category.count}</span>
+          </label>
+        </>
+      ))
+    }
+  </div>
+
+  {
+    yearGroups ? (
+      yearGroups.map(([year, yearPosts]) => (
+        <section class="year-group">
+          <h2>{year}</h2>
+          <ul class="posts">
+            {yearPosts.map((post) => (
+              <PostCard post={post} />
+            ))}
+          </ul>
+        </section>
+      ))
+    ) : (
+      <ul class="posts">
+        {posts.map((post) => (
+          <PostCard post={post} />
+        ))}
+      </ul>
+    )
+  }
+</div>
+
+<style>
+  .filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 1.5rem;
+    row-gap: 0.5rem;
+    font-family: var(--font-sans);
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  /* visível a teclado, invisível a olho — o rótulo é que carrega a aparência */
+  .filter-radio {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+  }
+
+  .filter-bar label {
+    cursor: pointer;
+    color: var(--muted);
+    text-underline-offset: 0.25em;
+  }
+
+  .filter-bar label:hover {
+    color: var(--ink);
+  }
+
+  .filter-radio:checked + label {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: var(--ink);
+  }
+
+  .filter-radio:focus-visible + label {
+    outline: 2px solid var(--known);
+    outline-offset: 2px;
+  }
+
+  .count {
+    color: var(--muted);
+  }
+
+  .filter-radio:checked + label .count {
+    color: inherit;
+  }
+
+  .year-group + .year-group {
+    margin-top: 2.5rem;
+  }
+
+  .year-group h2 {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .posts {
+    list-style: none;
+  }
+</style>
+
+<style is:global>
+  /*
+   * Regras que cruzam componentes (o <li> vem do PostCard, não do CategoryFilter),
+   * então precisam ficar fora do escopo automático do Astro — do contrário o
+   * atributo data-astro-cid de cada componente nunca bate e a regra não casa.
+   * Filtro por categoria, só CSS: cada rádio marcado esconde os cards de outra categoria.
+   */
+  .archive:has(#filter-mcp-agentes:checked) .posts > li:not([data-category='mcp-agentes']) {
+    display: none;
+  }
+
+  .archive:has(#filter-apis-integracao:checked)
+    .posts
+    > li:not([data-category='apis-integracao']) {
+    display: none;
+  }
+
+  .archive:has(#filter-bastidores:checked) .posts > li:not([data-category='bastidores']) {
+    display: none;
+  }
+
+  /* esconde o cabeçalho do ano que ficou sem post depois do filtro */
+  .archive:has(#filter-mcp-agentes:checked)
+    .year-group:not(:has(li[data-category='mcp-agentes'])),
+  .archive:has(#filter-apis-integracao:checked)
+    .year-group:not(:has(li[data-category='apis-integracao'])),
+  .archive:has(#filter-bastidores:checked)
+    .year-group:not(:has(li[data-category='bastidores'])) {
+    display: none;
+  }
+</style>

@@ -1,0 +1,26 @@
+---
+import Base from '../../layouts/Base.astro';
+import CategoryFilter from '../../components/CategoryFilter.astro';
+import { getPublishedPosts } from '../../lib/posts';
+
+const posts = await getPublishedPosts();
+---
+
+<Base title="Blog" description="Todos os posts do SpecificData, com filtro por categoria.">
+  <h1>Blog</h1>
+  <p class="count">{posts.length} {posts.length === 1 ? 'post' : 'posts'}</p>
+
+  <CategoryFilter posts={posts} />
+</Base>
+
+<style>
+  h1 {
+    margin-bottom: 0.5rem;
+  }
+
+  .count {
+    font-family: var(--font-sans);
+    color: var(--muted);
+    margin-bottom: 2rem;
+  }
+</style>

@@ -1,0 +1,178 @@
+---
+import Base from '../layouts/Base.astro';
+import PostCard from '../components/PostCard.astro';
+import { site } from '../data/site';
+import { series as allSeries } from '../data/series';
+import { getPublishedPosts, getSeriesPosts } from '../lib/posts';
+
+const activeSeries = allSeries.find((s) => s.status === 'em-andamento') ?? null;
+const seriesPosts = activeSeries ? await getSeriesPosts(activeSeries.slug) : [];
+
+const latestPosts = (await getPublishedPosts()).slice(0, 6);
+---
+
+<Base title={site.name} description={site.description}>
+  <section class="hero">
+    <h1>{site.name}</h1>
+    <p class="tagline">{site.tagline}</p>
+    <p>
+      A maioria do conteúdo sobre IA e agentes explica tudo do zero, como se fosse
+      tecnologia sem ancestral.
+    </p>
+    <p>
+      Aqui, cada conceito novo é ancorado no que você já sabe — e mostro onde a
+      analogia quebra.
+    </p>
+  </section>
+
+  {
+    activeSeries && seriesPosts.length > 0 && (
+      <section class="series-block">
+        <h2>{activeSeries.title}</h2>
+        <p class="series-description">{activeSeries.description}</p>
+        <ol class="series-list">
+          {seriesPosts.map((post) => {
+            const isPublished = !post.data.draft;
+            return (
+              <li>
+                <span class="series-order">{post.data.series?.order}</span>
+                {isPublished ? (
+                  <a href={`/blog/${post.id}`}>{post.data.title}</a>
+                ) : (
+                  <span class="series-title-pending">{post.data.title}</span>
+                )}
+              </li>
+            );
+          })}
+        </ol>
+        <a class="series-link" href={`/serie/${activeSeries.slug}`}>
+          Ver a série completa
+        </a>
+      </section>
+    )
+  }
+
+  <section class="latest-posts">
+    <h2>Últimos posts</h2>
+    <ul class="posts">
+      {latestPosts.map((post) => <PostCard post={post} />)}
+    </ul>
+  </section>
+
+  <section class="about-line">
+    <p>
+      Este blog é escrito por {site.author.name}.
+      <a href={site.author.github} rel="noopener noreferrer">GitHub</a> ·
+      <a href={site.author.linkedin} rel="noopener noreferrer">LinkedIn</a> ·
+      <a href="/rss.xml">RSS</a>
+    </p>
+  </section>
+</Base>
+
+<style>
+  section + section {
+    margin-top: 3.5rem;
+    padding-top: 3rem;
+    border-top: 1px solid var(--rule);
+  }
+
+  .hero h1 {
+    font-size: clamp(2.25rem, 5vw, 3rem);
+    margin-bottom: 0.75rem;
+  }
+
+  .hero .tagline {
+    font-family: var(--font-sans);
+    font-size: 1.25rem;
+    color: var(--muted);
+    margin-bottom: 1.25rem;
+  }
+
+  .hero p {
+    max-width: 60ch;
+  }
+
+  .hero p + p {
+    margin-top: 0.75rem;
+  }
+
+  .series-block h2,
+  .latest-posts h2 {
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .series-description {
+    color: var(--muted);
+    max-width: 60ch;
+    margin-bottom: 1.5rem;
+  }
+
+  .series-list {
+    list-style: none;
+  }
+
+  .series-list li {
+    display: flex;
+    gap: 0.75rem;
+    padding-block: 0.6rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .series-list li:first-child {
+    padding-top: 0;
+  }
+
+  .series-order {
+    font-family: var(--font-mono);
+    color: var(--muted);
+    min-width: 1.5em;
+  }
+
+  .series-list a {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: var(--rule);
+  }
+
+  .series-list a:hover {
+    text-decoration-color: currentColor;
+  }
+
+  .series-title-pending {
+    color: var(--muted);
+  }
+
+  .series-link {
+    display: inline-block;
+    margin-top: 1.25rem;
+    font-family: var(--font-sans);
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: var(--rule);
+  }
+
+  .series-link:hover {
+    text-decoration-color: currentColor;
+  }
+
+  .posts {
+    list-style: none;
+  }
+
+  .about-line {
+    font-family: var(--font-sans);
+    color: var(--muted);
+  }
+
+  .about-line a {
+    color: var(--muted);
+    text-decoration: underline;
+    text-decoration-color: var(--rule);
+  }
+
+  .about-line a:hover {
+    color: var(--ink);
+    text-decoration-color: currentColor;
+  }
+</style>

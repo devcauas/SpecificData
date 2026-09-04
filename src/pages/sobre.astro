@@ -1,0 +1,67 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../data/site';
+---
+
+<Base
+  title="Sobre"
+  description={`Sobre o ${site.name}: quem escreve, com que stack o blog é construído e como entrar em contato.`}
+>
+  <h1>Sobre</h1>
+
+  <section class="block">
+    <p>
+      O {site.name} é escrito por {site.author.name}. O blog explica IA aplicada
+      partindo do que quem já programa e consome API no dia a dia já sabe: cada
+      conceito novo é ancorado num conceito conhecido, e depois mostro onde a
+      analogia quebra.
+    </p>
+  </section>
+
+  <section class="block">
+    <h2>Stack</h2>
+    <p>
+      Site estático construído com Astro e TypeScript, conteúdo em Markdown, sem
+      framework de JavaScript no cliente e sem backend.
+    </p>
+  </section>
+
+  <section class="block">
+    <h2>Contato</h2>
+    <p>
+      <a href={site.author.github} rel="noopener noreferrer">GitHub</a> ·
+      <a href={site.author.linkedin} rel="noopener noreferrer">LinkedIn</a>
+    </p>
+  </section>
+</Base>
+
+<style>
+  h1 {
+    margin-bottom: 2rem;
+  }
+
+  .block {
+    max-width: 60ch;
+  }
+
+  .block + .block {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--rule);
+  }
+
+  .block h2 {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .block a {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: var(--rule);
+  }
+
+  .block a:hover {
+    text-decoration-color: currentColor;
+  }
+</style>

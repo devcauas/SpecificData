@@ -1,0 +1,37 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="Página não encontrada" description="Esta página não existe no SpecificData.">
+  <div class="not-found">
+    <h1>404</h1>
+    <p>Essa página não existe. Pode ter sido movida ou o link está errado.</p>
+    <a href="/">Voltar para a home</a>
+  </div>
+</Base>
+
+<style>
+  .not-found {
+    max-width: 60ch;
+  }
+
+  h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+  }
+
+  a {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: var(--rule);
+  }
+
+  a:hover {
+    text-decoration-color: currentColor;
+  }
+</style>
