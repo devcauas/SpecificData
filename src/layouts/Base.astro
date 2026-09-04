@@ -14,6 +14,17 @@ interface Props {
 }
 
 const { title, description, type, publishedDate, updatedDate, image } = Astro.props;
+
+const currentPath = Astro.url.pathname;
+const navLinks = [
+  { href: '/', label: 'Início' },
+  { href: '/sobre', label: 'Sobre' },
+];
+
+function isActiveLink(href: string): boolean {
+  if (href === '/') return currentPath === '/';
+  return currentPath === href || currentPath === `${href}/`;
+}
 ---
 
 <html lang="pt-BR">
@@ -37,7 +48,13 @@ const { title, description, type, publishedDate, updatedDate, image } = Astro.pr
           <p class="header-tagline">{site.headerTagline}</p>
         </div>
         <nav>
-          <a href="/sobre">Sobre</a>
+          {
+            navLinks.map((link) => (
+              <a href={link.href} aria-current={isActiveLink(link.href) ? 'page' : undefined}>
+                {link.label}
+              </a>
+            ))
+          }
         </nav>
       </div>
     </header>
@@ -52,7 +69,6 @@ const { title, description, type, publishedDate, updatedDate, image } = Astro.pr
         <nav>
           <a href={site.author.github} rel="noopener noreferrer">GitHub</a>
           <a href={site.author.linkedin} rel="noopener noreferrer">LinkedIn</a>
-          <a href="/rss.xml">RSS</a>
         </nav>
       </div>
     </footer>
@@ -119,6 +135,12 @@ const { title, description, type, publishedDate, updatedDate, image } = Astro.pr
   .site-header nav a:hover,
   .site-footer nav a:hover {
     color: var(--ink);
+  }
+
+  .site-header nav a[aria-current='page'] {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: var(--rule);
   }
 
   main {

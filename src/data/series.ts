@@ -18,23 +18,10 @@ export interface Series {
   posts: SeriesPlannedPost[];
 }
 
-export const series: Series[] = [
-  {
-    slug: 'mcp-para-quem-sabe-api',
-    title: 'MCP para quem já sabe API',
-    description:
-      'Se você já consome REST API, você já entende a maior parte de MCP. Esta série faz a tradução, capacidade por capacidade, até o ponto onde a analogia quebra.',
-    status: 'em-andamento',
-    posts: [
-      { order: 1, title: 'Se você entende REST, você já entende 80% de MCP' },
-      { order: 2, title: 'Tools, Resources e Prompts: os três tipos de capacidade' },
-      { order: 3, title: 'stdio vs HTTP: onde seu servidor MCP roda' },
-      { order: 4, title: 'Seu primeiro MCP server em 40 linhas' },
-      { order: 5, title: 'Plugando no Claude: o lado cliente' },
-      { order: 6, title: 'Onde a analogia quebra' },
-    ],
-  },
-];
+// Nenhuma série definida ainda — ver BRIEF.md §7. A infraestrutura (schema,
+// getSeriesPosts/getSeriesRoster/getSeriesNeighbors, SeriesNav) fica pronta
+// pra quando a primeira série real for criada.
+export const series: Series[] = [];
 
 export function getSeries(slug: string): Series {
   const found = series.find((s) => s.slug === slug);

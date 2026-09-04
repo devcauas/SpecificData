@@ -234,26 +234,15 @@ auto-hospedadas em `public/fonts/`, `font-display: swap`, subset latin.
 
 ## 7. Conteúdo inicial
 
-**Série: "MCP para quem já sabe API"** (`slug: mcp-para-quem-sabe-api`)
+Nenhuma série definida ainda. `src/data/series.ts` exporta `series: []` —
+a infraestrutura (campo `series` no schema, `src/pages/serie/[slug].astro`,
+os helpers `getSeriesPosts`/`getSeriesRoster`/`getSeriesNeighbors` em
+`src/lib/posts.ts`, o componente `SeriesNav.astro`) fica pronta pra quando a
+primeira série for definida. Até lá, `/serie/[slug]` não gera nenhuma página e
+o bloco de série da home não renderiza.
 
-| # | Título | Categoria |
-|---|---|---|
-| 1 | Se você entende REST, você já entende 80% de MCP | mcp-agentes |
-| 2 | Tools, Resources e Prompts: os três tipos de capacidade | mcp-agentes |
-| 3 | stdio vs HTTP: onde seu servidor MCP roda | mcp-agentes |
-| 4 | Seu primeiro MCP server em 40 linhas | mcp-agentes |
-| 5 | Plugando no Claude: o lado cliente | mcp-agentes |
-| 6 | Onde a analogia quebra | mcp-agentes |
-
-O post [1] carrega a série: o mapa da tradução (tool ≈ endpoint, JSON Schema ≈
-contrato de payload, descoberta de tools ≈ OpenAPI), fechando com um diagrama
-lado a lado usando `--known` e `--new`.
-
-O post [6] é o mais importante: numa API *você* decide qual endpoint chamar; em
-MCP o **modelo** decide. Isso muda permissão, custo de contexto e determinismo.
-
-**Ritmo de publicação:** só publique o [N] quando o [N+1] estiver em rascunho.
-Assim nunca falta próximo post no cano.
+**Ritmo de publicação (vale pra qualquer série futura):** só publique o [N]
+quando o [N+1] estiver em rascunho. Assim nunca falta próximo post no cano.
 
 ---
 

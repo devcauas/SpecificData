@@ -4,6 +4,7 @@ description: O que você vai encontrar aqui, como eu pretendo escrever e o compr
 date: 2026-09-04
 category: bastidores
 tags: ["apresentação"]
+cover: ../../assets/covers/bem-vindo.jpg
 featured: true
 draft: false
 ---
