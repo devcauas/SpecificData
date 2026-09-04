@@ -7,7 +7,7 @@ tags: ["teste", "layout"]
 series:
   slug: mcp-para-quem-sabe-api
   order: 1
-draft: false
+draft: true
 featured: false
 ---
 
