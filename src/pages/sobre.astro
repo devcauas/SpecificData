@@ -5,25 +5,62 @@ import { site } from '../data/site';
 
 <Base
   title="Sobre"
-  description={`Sobre o ${site.name}: quem escreve, com que stack o blog é construído e como entrar em contato.`}
+  description={`Sobre o ${site.name}: apresentação, habilidades, stack e contato de ${site.author.name}.`}
 >
   <h1>Sobre</h1>
 
   <section class="block">
+    <h2>Apresentação</h2>
+    {
+      /*
+        Sem foto por enquanto. Quando tiver uma, o lugar é aqui, antes do
+        parágrafo — algo como:
+        <img src={fotoImportada} alt={site.author.name} width="160" height="160" />
+        Proporção sugerida: quadrada (1:1), ~160-200px, mesmo tratamento
+        monocromático do resto do site (sem moldura, sem sombra).
+      */
+    }
     <p>
-      O {site.name} é escrito por {site.author.name}. O blog explica IA aplicada
-      partindo do que quem já programa e consome API no dia a dia já sabe: cada
-      conceito novo é ancorado num conceito conhecido, e depois mostro onde a
-      analogia quebra.
+      [Escreva aqui uma apresentação curta: quem você é, o que faz hoje e por
+      que decidiu criar este blog. Duas ou três frases bastam.]
     </p>
   </section>
 
   <section class="block">
-    <h2>Stack</h2>
-    <p>
-      Site estático construído com Astro e TypeScript, conteúdo em Markdown, sem
-      framework de JavaScript no cliente e sem backend.
-    </p>
+    <h2>Habilidades</h2>
+    <ul class="plain-list">
+      <li>[Área de atuação 1 — ex.: desenvolvimento backend]</li>
+      <li>[Área de atuação 2 — ex.: integração de APIs]</li>
+      <li>[Área de atuação 3 — ex.: IA aplicada]</li>
+    </ul>
+  </section>
+
+  <section class="block">
+    <h2>Stack e ferramentas</h2>
+    <ul class="plain-list">
+      <li>[Linguagem ou framework 1]</li>
+      <li>[Linguagem ou framework 2]</li>
+      <li>[Ferramenta ou serviço 1]</li>
+      <li>[Ferramenta ou serviço 2]</li>
+    </ul>
+  </section>
+
+  <section class="block">
+    <h2>Projetos</h2>
+    <ul class="project-list">
+      <li>
+        <p class="project-title">[Nome do projeto 1]</p>
+        <p class="project-description">
+          [Uma frase sobre o que é e qual problema resolve. Link opcional.]
+        </p>
+      </li>
+      <li>
+        <p class="project-title">[Nome do projeto 2]</p>
+        <p class="project-description">
+          [Uma frase sobre o que é e qual problema resolve. Link opcional.]
+        </p>
+      </li>
+    </ul>
   </section>
 
   <section class="block">
@@ -52,7 +89,7 @@ import { site } from '../data/site';
 
   .block h2 {
     font-size: 1.1rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
   }
 
   .block a {
@@ -63,5 +100,41 @@ import { site } from '../data/site';
 
   .block a:hover {
     text-decoration-color: currentColor;
+  }
+
+  .plain-list {
+    list-style: none;
+  }
+
+  .plain-list li {
+    padding-block: 0.4rem;
+    border-bottom: 1px solid var(--rule);
+    color: var(--muted);
+  }
+
+  .plain-list li:first-child {
+    padding-top: 0;
+  }
+
+  .plain-list li:last-child {
+    border-bottom: none;
+  }
+
+  .project-list {
+    list-style: none;
+  }
+
+  .project-list li + li {
+    margin-top: 1.25rem;
+  }
+
+  .project-title {
+    font-family: var(--font-sans);
+    font-weight: 600;
+  }
+
+  .project-description {
+    margin-top: 0.25rem;
+    color: var(--muted);
   }
 </style>

@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import type { Post } from '../lib/posts';
 import { getCategory } from '../data/categories';
 
@@ -18,13 +19,20 @@ const dateFormatter = new Intl.DateTimeFormat('pt-BR', {
 ---
 
 <li class="post-card" data-category={data.category}>
-  <a class="post-card-title" href={`/blog/${id}`}>{data.title}</a>
-  <p class="post-card-description">{data.description}</p>
+  {
+    data.cover && (
+      <a href={`/blog/${id}`} class="post-card-cover" tabindex="-1" aria-hidden="true">
+        <Image src={data.cover} alt="" width={600} height={400} format="webp" loading="lazy" />
+      </a>
+    )
+  }
   <p class="post-card-meta">
-    <span>{category.label}</span>
+    <span class="post-card-category">{category.label}</span>
     <span aria-hidden="true"> · </span>
     <time datetime={data.date.toISOString()}>{dateFormatter.format(data.date)}</time>
   </p>
+  <a class="post-card-title" href={`/blog/${id}`}>{data.title}</a>
+  <p class="post-card-description">{data.description}</p>
 </li>
 
 <style>
@@ -37,8 +45,34 @@ const dateFormatter = new Intl.DateTimeFormat('pt-BR', {
     padding-top: 0;
   }
 
+  .post-card-cover {
+    display: block;
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+    border-radius: 3px;
+    margin-bottom: 0.85rem;
+  }
+
+  .post-card-cover img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .post-card-meta {
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+
+  .post-card-category {
+    text-transform: lowercase;
+  }
+
   .post-card-title {
     display: inline-block;
+    margin-top: 0.4rem;
     font-family: var(--font-sans);
     font-weight: 600;
     font-size: 1.15rem;
@@ -54,13 +88,6 @@ const dateFormatter = new Intl.DateTimeFormat('pt-BR', {
 
   .post-card-description {
     margin-top: 0.4rem;
-    color: var(--muted);
-  }
-
-  .post-card-meta {
-    margin-top: 0.6rem;
-    font-family: var(--font-sans);
-    font-size: 0.85rem;
     color: var(--muted);
   }
 </style>

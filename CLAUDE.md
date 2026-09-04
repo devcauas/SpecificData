@@ -47,6 +47,18 @@ em `src/data/series.ts` e `series.order` não pode colidir com outro post.
   nunca redige conteúdo editorial. Arquivo de teste para validar layout usa
   prefixo `_` e é descartável.
 
+## Capa de post (opcional)
+
+- Arquivo em `src/assets/covers/<slug-da-imagem>.jpg` (ou `.png`/`.webp` —
+  qualquer formato que o `image()` do Astro aceite).
+- No frontmatter, `cover` é caminho relativo ao próprio arquivo `.md`, não à
+  raiz do projeto: `cover: ../../assets/covers/<arquivo>.jpg`.
+- **Proporção recomendada: 3:2** (ex.: 1200×800). O `PostCard` corta pra 3:2
+  via CSS (`object-fit: cover`) não importa o que você mande, mas mandar
+  perto de 3:2 evita corte feio no rosto/foco da imagem.
+- Sem `cover` no frontmatter, o card renderiza só texto — não é erro, não
+  precisa de imagem em todo post.
+
 ## Segurança
 
 - Nunca usar `set:html`. Se parecer necessário, pergunte antes.

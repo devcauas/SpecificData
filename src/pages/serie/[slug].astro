@@ -1,7 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { series, getSeries } from '../../data/series';
-import { getSeriesPosts } from '../../lib/posts';
+import { getSeriesRoster } from '../../lib/posts';
 
 export async function getStaticPaths() {
   return series.map((s) => ({ params: { slug: s.slug } }));
@@ -9,7 +9,7 @@ export async function getStaticPaths() {
 
 const { slug } = Astro.params;
 const seriesInfo = getSeries(slug as string);
-const posts = await getSeriesPosts(seriesInfo.slug);
+const roster = await getSeriesRoster(seriesInfo);
 ---
 
 <Base title={seriesInfo.title} description={seriesInfo.description}>
@@ -20,24 +20,21 @@ const posts = await getSeriesPosts(seriesInfo.slug);
 
   <ol class="series-posts">
     {
-      posts.map((post) => {
-        const isPublished = !post.data.draft;
-        return (
-          <li>
-            <span class="order">{post.data.series?.order}</span>
-            <div class="post-info">
-              {isPublished ? (
-                <a class="title" href={`/blog/${post.id}`}>
-                  {post.data.title}
-                </a>
-              ) : (
-                <span class="title pending">{post.data.title}</span>
-              )}
-              {isPublished && <p class="description">{post.data.description}</p>}
-            </div>
-          </li>
-        );
-      })
+      roster.map((entry) => (
+        <li>
+          <span class="order">{entry.order}</span>
+          <div class="post-info">
+            {entry.href ? (
+              <a class="title" href={entry.href}>
+                {entry.title}
+              </a>
+            ) : (
+              <span class="title pending">{entry.title}</span>
+            )}
+            {entry.description && <p class="description">{entry.description}</p>}
+          </div>
+        </li>
+      ))
     }
   </ol>
 </Base>

@@ -1,4 +1,5 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
+import type { Series } from '../data/series';
 
 export type Post = CollectionEntry<'blog'>;
 
@@ -18,6 +19,43 @@ export async function getPublishedPosts(): Promise<Post[]> {
 export async function getSeriesPosts(slug: string): Promise<Post[]> {
   const posts = await getCollection('blog', (post) => post.data.series?.slug === slug);
   return posts.sort((a, b) => a.data.series!.order - b.data.series!.order);
+}
+
+export interface SeriesRosterEntry {
+  order: number;
+  title: string;
+  /** null quando ainda não há post publicado nesse lugar da série. */
+  href: string | null;
+  /** Só existe quando o post está publicado. */
+  description: string | null;
+}
+
+/**
+ * Roteiro completo da série (src/data/series.ts) cruzado com os arquivos
+ * reais: cada posição vira link só se o post correspondente existe e está
+ * publicado; caso contrário mostra o título planejado, sem link. Existe pra
+ * a série aparecer inteira mesmo antes de todo post estar escrito.
+ */
+export async function getSeriesRoster(series: Series): Promise<SeriesRosterEntry[]> {
+  const files = await getSeriesPosts(series.slug);
+
+  return series.posts.map((planned) => {
+    const file = files.find((f) => f.data.series?.order === planned.order);
+    if (file && !file.data.draft) {
+      return {
+        order: planned.order,
+        title: file.data.title,
+        href: `/blog/${file.id}`,
+        description: file.data.description,
+      };
+    }
+    return {
+      order: planned.order,
+      title: file?.data.title ?? planned.title,
+      href: null,
+      description: null,
+    };
+  });
 }
 
 export interface SeriesNeighbors {

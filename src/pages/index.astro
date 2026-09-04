@@ -3,10 +3,10 @@ import Base from '../layouts/Base.astro';
 import PostCard from '../components/PostCard.astro';
 import { site } from '../data/site';
 import { series as allSeries } from '../data/series';
-import { getPublishedPosts, getSeriesPosts } from '../lib/posts';
+import { getPublishedPosts, getSeriesRoster } from '../lib/posts';
 
 const activeSeries = allSeries.find((s) => s.status === 'em-andamento') ?? null;
-const seriesPosts = activeSeries ? await getSeriesPosts(activeSeries.slug) : [];
+const seriesRoster = activeSeries ? await getSeriesRoster(activeSeries) : [];
 
 const latestPosts = (await getPublishedPosts()).slice(0, 6);
 ---
@@ -26,24 +26,21 @@ const latestPosts = (await getPublishedPosts()).slice(0, 6);
   </section>
 
   {
-    activeSeries && seriesPosts.length > 0 && (
+    activeSeries && seriesRoster.length > 0 && (
       <section class="series-block">
         <h2>{activeSeries.title}</h2>
         <p class="series-description">{activeSeries.description}</p>
         <ol class="series-list">
-          {seriesPosts.map((post) => {
-            const isPublished = !post.data.draft;
-            return (
-              <li>
-                <span class="series-order">{post.data.series?.order}</span>
-                {isPublished ? (
-                  <a href={`/blog/${post.id}`}>{post.data.title}</a>
-                ) : (
-                  <span class="series-title-pending">{post.data.title}</span>
-                )}
-              </li>
-            );
-          })}
+          {seriesRoster.map((entry) => (
+            <li>
+              <span class="series-order">{entry.order}</span>
+              {entry.href ? (
+                <a href={entry.href}>{entry.title}</a>
+              ) : (
+                <span class="series-title-pending">{entry.title}</span>
+              )}
+            </li>
+          ))}
         </ol>
         <a class="series-link" href={`/serie/${activeSeries.slug}`}>
           Ver a série completa
@@ -57,15 +54,7 @@ const latestPosts = (await getPublishedPosts()).slice(0, 6);
     <ul class="posts">
       {latestPosts.map((post) => <PostCard post={post} />)}
     </ul>
-  </section>
-
-  <section class="about-line">
-    <p>
-      Este blog é escrito por {site.author.name}.
-      <a href={site.author.github} rel="noopener noreferrer">GitHub</a> ·
-      <a href={site.author.linkedin} rel="noopener noreferrer">LinkedIn</a> ·
-      <a href="/rss.xml">RSS</a>
-    </p>
+    <a class="all-posts-link" href="/blog">Ver todos os artigos</a>
   </section>
 </Base>
 
@@ -160,19 +149,16 @@ const latestPosts = (await getPublishedPosts()).slice(0, 6);
     list-style: none;
   }
 
-  .about-line {
+  .all-posts-link {
+    display: inline-block;
+    margin-top: 1.5rem;
     font-family: var(--font-sans);
-    color: var(--muted);
-  }
-
-  .about-line a {
-    color: var(--muted);
+    color: var(--ink);
     text-decoration: underline;
     text-decoration-color: var(--rule);
   }
 
-  .about-line a:hover {
-    color: var(--ink);
+  .all-posts-link:hover {
     text-decoration-color: currentColor;
   }
 </style>

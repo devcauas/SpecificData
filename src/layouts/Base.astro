@@ -1,5 +1,6 @@
 ---
 import Head from '../components/Head.astro';
+import Logo from '../components/Logo.astro';
 import { site } from '../data/site';
 import '../styles/global.css';
 
@@ -29,9 +30,13 @@ const { title, description, type, publishedDate, updatedDate, image } = Astro.pr
   <body>
     <header class="site-header">
       <div class="container">
-        <a href="/" class="site-name">{site.name}</a>
+        <div class="brand">
+          <a href="/" class="logo-link" aria-label={`${site.name} — página inicial`}>
+            <Logo size={28} />
+          </a>
+          <p class="header-tagline">{site.headerTagline}</p>
+        </div>
         <nav>
-          <a href="/blog">Blog</a>
           <a href="/sobre">Sobre</a>
         </nav>
       </div>
@@ -80,9 +85,23 @@ const { title, description, type, publishedDate, updatedDate, image } = Astro.pr
     padding-block: 1rem;
   }
 
-  .site-name {
-    font-weight: 700;
-    text-decoration: none;
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-width: 0;
+  }
+
+  .logo-link {
+    display: flex;
+    flex-shrink: 0;
+    color: var(--ink);
+  }
+
+  .header-tagline {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--muted);
   }
 
   .site-header nav,
