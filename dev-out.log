@@ -2,31 +2,21 @@
 > specificdata@0.0.1 dev
 > astro dev
 
-22:38:30 [types] Generated 1ms
-22:38:31 [content] Syncing content
-22:38:31 [content] Synced content
-22:38:31 [vite] Re-optimizing dependencies because vite config has changed
+22:49:05 [types] Generated 1ms
+22:49:06 [content] Syncing content
+22:49:06 [content] Synced content
+22:49:06 [vite] Re-optimizing dependencies because vite config has changed
 
- astro  v5.18.2 ready in 1283 ms
+ astro  v5.18.2 ready in 1187 ms
 
 ┃ Local    http://localhost:4321/
 ┃ Network  use --host to expose
 
-22:38:31 watching for file changes...
-22:38:33 [200] / 54ms
-22:39:00 [200] / 21ms
-22:39:01 [200] /_image 236ms
-22:39:01 [200] /blog 15ms
-22:39:02 [200] / 11ms
-22:39:03 [200] /blog 8ms
-22:39:04 [200] / 6ms
-22:39:04 [200] /blog 8ms
-22:39:05 [200] / 6ms
-22:39:06 [200] /blog 6ms
-22:39:36 [watch] /src/components/CategoryFilter.astro?astro&type=style&index=0&lang.css, /src/components/CategoryFilter.astro?astro&type=style&index=1&lang.css
-22:39:36 [watch] src/components/CategoryFilter.astro
-22:39:51 [200] /blog 16ms
-22:39:52 [200] /_image 93ms
-22:40:06 [200] /blog 10ms
-22:40:06 [200] /_image 73ms
-22:40:07 [200] /blog 8ms
+22:49:06 watching for file changes...
+22:49:07 [200] / 58ms
+22:49:21 [200] /sobre 8ms
+22:49:42 [watch] /src/pages/sobre.astro?astro&type=style&index=0&lang.css
+22:49:42 [watch] src/pages/sobre.astro
+22:49:56 [watch] /src/pages/sobre.astro?astro&type=style&index=0&lang.css
+22:49:57 [watch] /src/pages/sobre.astro?astro&type=style&index=0&lang.css
+22:50:23 [200] /sobre 15ms

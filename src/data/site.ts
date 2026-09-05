@@ -10,5 +10,6 @@ export const site = {
     name: 'Cauã Souza Almeida',
     github: 'https://github.com/devcauas',
     linkedin: 'https://www.linkedin.com/in/cauã-souza-almeida-2a922b231',
+    email: 'cauaalmeida2005@gmail.com',
   },
 } as const;

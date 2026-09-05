@@ -1,6 +1,48 @@
 ---
 import Base from '../layouts/Base.astro';
 import { site } from '../data/site';
+
+const skills = [
+  'Machine learning aplicado — modelagem preditiva com Scikit-learn, do pré-processamento à avaliação de métricas',
+  'IA generativa e RAG — pipelines com LangChain, ChromaDB, embeddings e LLM local via Ollama',
+  'Análise e engenharia de dados — Pandas, NumPy, SQL e modelagem relacional',
+  'Automação de processos — Power Automate, integrando rotinas que antes eram manuais',
+];
+
+const stack = [
+  'Python — Pandas, NumPy, Scikit-learn, Matplotlib, Seaborn',
+  'FastAPI, LangChain, ChromaDB, Streamlit',
+  'SQL, PostgreSQL, SQLite, DBDiagram',
+  'Azure, Databricks, Docker, Git e GitHub',
+  'HTML, CSS, JavaScript, Astro',
+];
+
+const projects = [
+  {
+    title: 'Spotify FAQ Chatbot',
+    url: 'https://github.com/devcauas/spotify_faq_chatbot',
+    description:
+      'Chatbot com pipeline RAG rodando 100% local sobre a Central de Ajuda do Spotify: scraping da documentação, embeddings com Sentence Transformers, banco vetorial ChromaDB e respostas via Llama 3.2 no Ollama. Backend em FastAPI, frontend em Streamlit, containerizado com Docker.',
+  },
+  {
+    title: 'Análise Estatística e Preditiva do Varejo',
+    url: 'https://github.com/devcauas/analise_estatistica_varejo',
+    description:
+      'Estudo estatístico e de machine learning sobre transações do varejo, incluindo dados do mercado brasileiro: análise exploratória, identificação de outliers, desempenho por segmento ao longo do tempo e modelo preditivo de demanda.',
+  },
+  {
+    title: 'Azure Pricing Estimator',
+    url: null,
+    description:
+      'Protótipo web que interpreta linguagem natural e preenche automaticamente a Azure Pricing Calculator, substituindo a estimativa métrica por métrica feita manualmente por um arquiteto.',
+  },
+  {
+    title: 'X Clone',
+    url: 'https://github.com/devcauas/x_clone',
+    description:
+      'Clone funcional de rede social cobrindo cadastro, login e feed, com backend em PHP, MySQL e interface em HTML/CSS.',
+  },
+];
 ---
 
 <Base
@@ -9,65 +51,63 @@ import { site } from '../data/site';
 >
   <h1>Sobre</h1>
 
-  <section class="block measure">
+  <section class="block intro measure">
     <h2>Apresentação</h2>
-    {
-      /*
-        Sem foto por enquanto. Quando tiver uma, o lugar é aqui, antes do
-        parágrafo — algo como:
-        <img src={fotoImportada} alt={site.author.name} width="160" height="160" />
-        Proporção sugerida: quadrada (1:1), ~160-200px, mesmo tratamento
-        monocromático do resto do site (sem moldura, sem sombra).
-      */
-    }
     <p>
-      [Escreva aqui uma apresentação curta: quem você é, o que faz hoje e por
-      que decidiu criar este blog. Duas ou três frases bastam.]
+      Sou Cauã Souza Almeida, cientista de dados júnior na Dataside e tecnólogo em
+      Análise e Desenvolvimento de Sistemas pela FATEC Taubaté. Trabalho com
+      modelagem preditiva, arquiteturas RAG e automação de processos — na prática,
+      ligando modelo, dado e API até virar coisa que roda em produção.
+    </p>
+    <p>
+      Criei o SpecificData porque quase todo conteúdo sobre IA e agentes explica
+      tudo do zero. Quem já consome API todo dia não precisa disso: precisa da
+      tradução, e do ponto exato onde a analogia quebra.
     </p>
   </section>
 
   <section class="block measure">
     <h2>Habilidades</h2>
     <ul class="plain-list">
-      <li>[Área de atuação 1 — ex.: desenvolvimento backend]</li>
-      <li>[Área de atuação 2 — ex.: integração de APIs]</li>
-      <li>[Área de atuação 3 — ex.: IA aplicada]</li>
+      {skills.map((skill) => <li>{skill}</li>)}
     </ul>
   </section>
 
   <section class="block measure">
     <h2>Stack e ferramentas</h2>
     <ul class="plain-list">
-      <li>[Linguagem ou framework 1]</li>
-      <li>[Linguagem ou framework 2]</li>
-      <li>[Ferramenta ou serviço 1]</li>
-      <li>[Ferramenta ou serviço 2]</li>
+      {stack.map((item) => <li>{item}</li>)}
     </ul>
   </section>
 
   <section class="block measure">
     <h2>Projetos</h2>
     <ul class="project-list">
-      <li>
-        <p class="project-title">[Nome do projeto 1]</p>
-        <p class="project-description">
-          [Uma frase sobre o que é e qual problema resolve. Link opcional.]
-        </p>
-      </li>
-      <li>
-        <p class="project-title">[Nome do projeto 2]</p>
-        <p class="project-description">
-          [Uma frase sobre o que é e qual problema resolve. Link opcional.]
-        </p>
-      </li>
+      {
+        projects.map((project) => (
+          <li>
+            <p class="project-title">
+              {project.url ? (
+                <a href={project.url} rel="noopener noreferrer">
+                  {project.title}
+                </a>
+              ) : (
+                project.title
+              )}
+            </p>
+            <p class="project-description">{project.description}</p>
+          </li>
+        ))
+      }
     </ul>
   </section>
 
   <section class="block measure">
     <h2>Contato</h2>
     <p>
-      <a href={site.author.github} rel="noopener noreferrer">GitHub</a> ·
-      <a href={site.author.linkedin} rel="noopener noreferrer">LinkedIn</a>
+      <a href={site.author.github} rel="noopener noreferrer">GitHub</a> ·{' '}
+      <a href={site.author.linkedin} rel="noopener noreferrer">LinkedIn</a> ·{' '}
+      <a href={`mailto:${site.author.email}`}>E-mail</a>
     </p>
   </section>
 </Base>
@@ -88,13 +128,13 @@ import { site } from '../data/site';
     margin-bottom: 0.75rem;
   }
 
+  .intro p + p {
+    margin-top: 1rem;
+  }
+
   .block a {
     color: var(--ink);
     text-decoration: underline;
-    text-decoration-color: var(--rule);
-  }
-
-  .block a:hover {
     text-decoration-color: currentColor;
   }
 
