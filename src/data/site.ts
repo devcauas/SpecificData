@@ -1,10 +1,10 @@
 export const site = {
   name: 'SpecificData',
-  tagline: 'IA aplicada, explicada a partir do que você já sabe.',
+  tagline: 'Blog das principais novidades em tecnologia, sem começar do zero.',
   /** Linha curta ao lado do ícone no cabeçalho. */
-  headerTagline: 'Blog de tecnologia e inovações · Cauã Souza Almeida',
+  headerTagline: 'Tecnologia e inovações · Cauã Souza Almeida',
   description:
-    'Blog técnico sobre IA aplicada, MCP e agentes, escrito para quem já sabe programar e consome APIs no dia a dia.',
+    'Blog técnico sobre tecnologia e as principais novidades do mercado.',
   // specificdata.dev ainda não foi registrado — volte pra ele quando/se isso mudar.
   url: 'https://specificdata.cauaalmeida2005.workers.dev',
   author: {
