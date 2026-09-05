@@ -13,7 +13,7 @@ const roster = await getSeriesRoster(seriesInfo);
 ---
 
 <Base title={seriesInfo.title} description={seriesInfo.description}>
-  <header class="series-header">
+  <header class="series-header measure">
     <h1>{seriesInfo.title}</h1>
     <p class="series-description">{seriesInfo.description}</p>
   </header>
@@ -41,7 +41,6 @@ const roster = await getSeriesRoster(seriesInfo);
 
 <style>
   .series-header {
-    max-width: 60ch;
     margin-bottom: 2.5rem;
   }
 
@@ -78,12 +77,8 @@ const roster = await getSeriesRoster(seriesInfo);
     font-size: 1.1rem;
     color: var(--ink);
     text-decoration: underline;
-    text-decoration-color: var(--rule);
-    text-underline-offset: 0.15em;
-  }
-
-  a.title:hover {
     text-decoration-color: currentColor;
+    text-underline-offset: 0.15em;
   }
 
   .title.pending {

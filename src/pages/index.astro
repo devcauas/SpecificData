@@ -15,11 +15,11 @@ const latestPosts = (await getPublishedPosts()).slice(0, 6);
   <section class="hero">
     <h1>{site.name}</h1>
     <p class="tagline">{site.tagline}</p>
-    <p>
+    <p class="measure">
       A maioria do conteúdo sobre IA e agentes explica tudo do zero, como se fosse
       tecnologia sem ancestral.
     </p>
-    <p>
+    <p class="measure">
       Aqui, cada conceito novo é ancorado no que você já sabe — e mostro onde a
       analogia quebra.
     </p>
@@ -29,7 +29,7 @@ const latestPosts = (await getPublishedPosts()).slice(0, 6);
     activeSeries && seriesRoster.length > 0 && (
       <section class="series-block">
         <h2>{activeSeries.title}</h2>
-        <p class="series-description">{activeSeries.description}</p>
+        <p class="series-description measure">{activeSeries.description}</p>
         <ol class="series-list">
           {seriesRoster.map((entry) => (
             <li>
@@ -77,10 +77,6 @@ const latestPosts = (await getPublishedPosts()).slice(0, 6);
     margin-bottom: 1.25rem;
   }
 
-  .hero p {
-    max-width: 60ch;
-  }
-
   .hero p + p {
     margin-top: 0.75rem;
   }
@@ -93,7 +89,6 @@ const latestPosts = (await getPublishedPosts()).slice(0, 6);
 
   .series-description {
     color: var(--muted);
-    max-width: 60ch;
     margin-bottom: 1.5rem;
   }
 
@@ -143,10 +138,6 @@ const latestPosts = (await getPublishedPosts()).slice(0, 6);
 
   .series-link:hover {
     text-decoration-color: currentColor;
-  }
-
-  .posts {
-    list-style: none;
   }
 
   .all-posts-link {

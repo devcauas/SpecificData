@@ -226,9 +226,17 @@ auto-hospedadas em `public/fonts/`, `font-display: swap`, subset latin.
 
 - Alinhamento à esquerda em tudo. Nada centralizado exceto o container.
 - Sem rótulo em caixa alta acima de título. Sem `→` colado em texto de link.
-- Sem card com sombra. Separação por filete de 1px em `--rule`.
+- Card de post tem borda de 1px em `--ink` e fundo `--card`, ligeiramente mais
+  claro que o papel. Continua sem sombra e sem raio grande — a borda é o único
+  delimitador. Separação por filete de 1px em `--rule` permanece válida para
+  listas e seções, não para cards.
 - Uma animação no site inteiro, no máximo. Provavelmente nenhuma.
 - Foco de teclado visível, `prefers-reduced-motion` respeitado, contraste AA.
+
+Os acentos se estendem às categorias, mantendo o significado original:
+`apis-integracao` usa `--known` (é o que o leitor já sabe), `mcp-agentes` usa
+`--new` (é o conceito novo), `bastidores` fica neutro em `--muted`. Nenhum
+acento aparece fora desse mapeamento.
 
 ---
 

@@ -17,10 +17,15 @@ novo num conceito conhecido e depois mostra onde a analogia quebra.
   ordem de publicação é ruído.
 - **Os dois acentos são semânticos.** `--known` (azul) marca o conceito que o
   leitor já domina; `--new` (ameixa) marca o conceito novo. Nunca use nenhum dos
-  dois como decoração.
+  dois como decoração. Os acentos se estendem às categorias, mantendo o
+  significado original: `apis-integracao` usa `--known`, `mcp-agentes` usa
+  `--new`, `bastidores` fica neutro em `--muted`. Nenhum acento aparece fora
+  desse mapeamento.
 - **Zero JS em página de post.** Se uma feature exige JS no post, ela sai.
-- **Sem card com sombra, sem rótulo em caixa alta, sem `→` colado em link.**
-  São os tells que o design foge de propósito.
+- **Card de post tem borda de 1px em `--ink` e fundo `--card`**, ligeiramente
+  mais claro que o papel. Continua sem sombra e sem raio grande — a borda é o
+  único delimitador. Sem rótulo em caixa alta, sem `→` colado em link — são os
+  tells que o design foge de propósito.
 
 ## Escrita
 

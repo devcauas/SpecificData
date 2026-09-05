@@ -101,6 +101,13 @@
   --new: #7a3e6b;
   --code-bg: #e4e5df;
 
+  /* superfícies */
+  --card: #fbfbf8; /* branco quebrado, acima do papel — dá o "branco" da marca */
+  --card-border: var(--ink);
+
+  /* escala do azul (já é o --known do BRIEF, agora com estados) */
+  --known-deep: #2c4360; /* hover e estado ativo */
+
   --font-serif: 'Source Serif 4', Georgia, 'Times New Roman', serif;
   --font-sans:
     'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -108,6 +115,8 @@
 
   --content-width: 42rem; /* ~68 characters at body size */
   --container-width: 68rem;
+
+  /* breakpoints usados no projeto: 40rem (640px) e 64rem (1024px) */
 }
 
 /* ---------- reset ---------- */
@@ -205,12 +214,36 @@ samp {
 /* ---------- links ---------- */
 
 a {
-  text-decoration-color: var(--rule);
+  color: var(--known);
+  text-decoration-color: var(--known);
   text-underline-offset: 0.15em;
+  text-decoration-thickness: 1px;
 }
 
 a:hover {
-  text-decoration-color: currentColor;
+  color: var(--known-deep);
+  text-decoration-thickness: 2px;
+}
+
+/* ---------- layout utilities ---------- */
+
+.measure {
+  max-width: var(--content-width);
+}
+
+/*
+ * Grid de PostCard, compartilhado por index.astro, CategoryFilter.astro e
+ * tag/[tag].astro. Fica em global.css (não escopado) porque o filtro
+ * CSS-only do /blog (CategoryFilter.astro) depende do <li> do PostCard ser
+ * filho direto de .posts — um wrapper ou uma regra duplicada por componente
+ * arriscaria essa relação. Uma coluna abaixo de 40rem, duas até 64rem, três
+ * acima — automático via auto-fill, sem media query.
+ */
+.posts {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr));
+  gap: 1.25rem;
+  list-style: none;
 }
 
 /* ---------- focus ---------- */

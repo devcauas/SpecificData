@@ -1,15 +1,24 @@
 ---
 import { Image } from 'astro:assets';
+import type { CategorySlug } from '../data/categories';
 import type { Post } from '../lib/posts';
 import { getCategory } from '../data/categories';
+import { getReadingTime } from '../lib/posts';
 
 interface Props {
   post: Post;
 }
 
 const { post } = Astro.props;
-const { data, id } = post;
+const { data, id, body } = post;
 const category = getCategory(data.category);
+const readingTime = getReadingTime(body ?? '');
+
+const categoryAccent: Record<CategorySlug, string> = {
+  'apis-integracao': 'var(--known)',
+  'mcp-agentes': 'var(--new)',
+  bastidores: 'var(--muted)',
+};
 
 const dateFormatter = new Intl.DateTimeFormat('pt-BR', {
   day: '2-digit',
@@ -18,12 +27,23 @@ const dateFormatter = new Intl.DateTimeFormat('pt-BR', {
 });
 ---
 
-<li class="post-card" data-category={data.category}>
+<li
+  class="post-card"
+  data-category={data.category}
+  style={{ '--category-accent': categoryAccent[data.category] }}
+>
   {
     data.cover && (
-      <a href={`/blog/${id}`} class="post-card-cover" tabindex="-1" aria-hidden="true">
-        <Image src={data.cover} alt="" width={600} height={400} format="webp" loading="lazy" />
-      </a>
+      <div class="post-card-cover">
+        <Image
+          src={data.cover}
+          alt=""
+          widths={[320, 480, 640]}
+          sizes="(max-width: 40rem) 100vw, 20rem"
+          format="webp"
+          loading="lazy"
+        />
+      </div>
     )
   }
   <p class="post-card-meta">
@@ -33,24 +53,43 @@ const dateFormatter = new Intl.DateTimeFormat('pt-BR', {
   </p>
   <a class="post-card-title" href={`/blog/${id}`}>{data.title}</a>
   <p class="post-card-description">{data.description}</p>
+  <p class="post-card-time">{readingTime} min</p>
 </li>
 
 <style>
   .post-card {
-    padding-block: 1.5rem;
-    border-bottom: 1px solid var(--rule);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: var(--card);
+    border: 1px solid var(--ink);
+    border-radius: 4px;
+    overflow: hidden;
+    transition:
+      background-color 120ms,
+      border-color 120ms;
   }
 
-  .post-card:first-child {
-    padding-top: 0;
+  .post-card::before {
+    content: '';
+    display: block;
+    height: 3px;
+    background: var(--category-accent);
+  }
+
+  .post-card:hover {
+    background: #ffffff;
+    border-color: var(--known-deep);
+  }
+
+  .post-card:has(a:focus-visible) {
+    outline: 2px solid var(--known);
+    outline-offset: 2px;
   }
 
   .post-card-cover {
-    display: block;
     aspect-ratio: 3 / 2;
     overflow: hidden;
-    border-radius: 3px;
-    margin-bottom: 0.85rem;
   }
 
   .post-card-cover img {
@@ -62,8 +101,9 @@ const dateFormatter = new Intl.DateTimeFormat('pt-BR', {
 
   .post-card-meta {
     font-family: var(--font-sans);
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     color: var(--muted);
+    margin: 0.85rem 1rem 0;
   }
 
   .post-card-category {
@@ -71,23 +111,35 @@ const dateFormatter = new Intl.DateTimeFormat('pt-BR', {
   }
 
   .post-card-title {
-    display: inline-block;
-    margin-top: 0.4rem;
+    display: block;
+    margin: 0.4rem 1rem 0;
     font-family: var(--font-sans);
     font-weight: 600;
-    font-size: 1.15rem;
+    font-size: 1.05rem;
     color: var(--ink);
-    text-decoration: underline;
-    text-decoration-color: var(--rule);
-    text-underline-offset: 0.15em;
+    text-decoration: none;
   }
 
-  .post-card-title:hover {
-    text-decoration-color: currentColor;
+  .post-card-title::after {
+    content: '';
+    position: absolute;
+    inset: 0;
   }
 
   .post-card-description {
-    margin-top: 0.4rem;
+    flex: 1;
+    margin: 0.5rem 1rem 0;
     color: var(--muted);
+    font-size: 0.95rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .post-card-time {
+    margin: 0.75rem 1rem 1rem;
+    color: var(--muted);
+    font-size: 0.8rem;
   }
 </style>

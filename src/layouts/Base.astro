@@ -39,6 +39,8 @@ function isActiveLink(href: string): boolean {
     />
   </head>
   <body>
+    <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+
     <header class="site-header">
       <div class="container">
         <div class="brand">
@@ -59,7 +61,7 @@ function isActiveLink(href: string): boolean {
       </div>
     </header>
 
-    <main class="container">
+    <main id="conteudo" class="container">
       <slot />
     </main>
 
@@ -140,7 +142,25 @@ function isActiveLink(href: string): boolean {
   .site-header nav a[aria-current='page'] {
     color: var(--ink);
     text-decoration: underline;
-    text-decoration-color: var(--rule);
+    text-decoration-color: var(--known);
+    text-decoration-thickness: 2px;
+  }
+
+  .skip-link {
+    position: absolute;
+    top: -3rem;
+    left: 0.5rem;
+    z-index: 10;
+    padding: 0.5rem 1rem;
+    background: var(--card);
+    color: var(--ink);
+    border: 1px solid var(--ink);
+    font-family: var(--font-sans);
+    text-decoration: none;
+  }
+
+  .skip-link:focus-visible {
+    top: 0.5rem;
   }
 
   main {

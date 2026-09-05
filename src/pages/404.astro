@@ -26,12 +26,12 @@ import Base from '../layouts/Base.astro';
   }
 
   a {
-    color: var(--ink);
+    color: var(--known);
     text-decoration: underline;
-    text-decoration-color: var(--rule);
+    text-decoration-color: currentColor;
   }
 
   a:hover {
-    text-decoration-color: currentColor;
+    color: var(--known-deep);
   }
 </style>
