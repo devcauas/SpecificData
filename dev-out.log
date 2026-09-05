@@ -2,39 +2,31 @@
 > specificdata@0.0.1 dev
 > astro dev
 
-21:09:03 [types] Generated 1ms
-21:09:04 [content] Syncing content
-21:09:04 [content] Synced content
-21:09:04 [vite] Re-optimizing dependencies because vite config has changed
+22:38:30 [types] Generated 1ms
+22:38:31 [content] Syncing content
+22:38:31 [content] Synced content
+22:38:31 [vite] Re-optimizing dependencies because vite config has changed
 
- astro  v5.18.2 ready in 1203 ms
+ astro  v5.18.2 ready in 1283 ms
 
 ┃ Local    http://localhost:4321/
 ┃ Network  use --host to expose
 
-21:09:04 watching for file changes...
-21:09:06 [200] / 76ms
-21:09:38 [200] /blog 27ms
-21:09:38 [200] /_image 160ms
-21:10:46 [200] /blog 29ms
-21:10:46 [200] /_image 100ms
-21:10:47 [200] /blog 10ms
-21:11:11 [200] /blog 10ms
-21:11:11 [200] /_image 85ms
-21:11:37 [200] /blog 9ms
-21:11:37 [200] /_image 73ms
-21:12:03 [glob-loader] Reloaded data from _test-grid-1.md
-21:12:04 [glob-loader] Reloaded data from _test-grid-2.md
-21:12:05 [glob-loader] Reloaded data from _test-grid-3.md
-21:12:06 [glob-loader] Reloaded data from _test-grid-4.md
-21:12:07 [glob-loader] Reloaded data from _test-grid-5.md
-21:12:23 [200] /blog 17ms
-21:12:23 [200] /_image 75ms
-21:12:24 [200] /blog 7ms
-21:12:24 [200] /_image 90ms
-21:12:24 [200] /_image 67ms
-21:12:25 [200] /blog 7ms
-21:12:25 [200] /blog 7ms
-21:12:26 [200] /blog 9ms
-21:12:27 [200] /blog 6ms
-21:12:28 [200] /blog 8ms
+22:38:31 watching for file changes...
+22:38:33 [200] / 54ms
+22:39:00 [200] / 21ms
+22:39:01 [200] /_image 236ms
+22:39:01 [200] /blog 15ms
+22:39:02 [200] / 11ms
+22:39:03 [200] /blog 8ms
+22:39:04 [200] / 6ms
+22:39:04 [200] /blog 8ms
+22:39:05 [200] / 6ms
+22:39:06 [200] /blog 6ms
+22:39:36 [watch] /src/components/CategoryFilter.astro?astro&type=style&index=0&lang.css, /src/components/CategoryFilter.astro?astro&type=style&index=1&lang.css
+22:39:36 [watch] src/components/CategoryFilter.astro
+22:39:51 [200] /blog 16ms
+22:39:52 [200] /_image 93ms
+22:40:06 [200] /blog 10ms
+22:40:06 [200] /_image 73ms
+22:40:07 [200] /blog 8ms

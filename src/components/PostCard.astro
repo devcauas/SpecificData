@@ -1,6 +1,5 @@
 ---
 import { Image } from 'astro:assets';
-import type { CategorySlug } from '../data/categories';
 import type { Post } from '../lib/posts';
 import { getCategory } from '../data/categories';
 import { getReadingTime } from '../lib/posts';
@@ -14,12 +13,6 @@ const { data, id, body } = post;
 const category = getCategory(data.category);
 const readingTime = getReadingTime(body ?? '');
 
-const categoryAccent: Record<CategorySlug, string> = {
-  'apis-integracao': 'var(--known)',
-  'mcp-agentes': 'var(--new)',
-  bastidores: 'var(--muted)',
-};
-
 const dateFormatter = new Intl.DateTimeFormat('pt-BR', {
   day: '2-digit',
   month: 'short',
@@ -30,7 +23,7 @@ const dateFormatter = new Intl.DateTimeFormat('pt-BR', {
 <li
   class="post-card"
   data-category={data.category}
-  style={{ '--category-accent': categoryAccent[data.category] }}
+  style={{ '--category-accent': category.accent }}
 >
   {
     data.cover && (

@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import PostCard from '../components/PostCard.astro';
 import { site } from '../data/site';
 import { series as allSeries } from '../data/series';
+import { categories } from '../data/categories';
 import { getPublishedPosts, getSeriesRoster } from '../lib/posts';
 
 const activeSeries = allSeries.find((s) => s.status === 'em-andamento') ?? null;
@@ -23,6 +24,22 @@ const latestPosts = (await getPublishedPosts()).slice(0, 6);
       Aqui, cada conceito novo é ancorado no que você já sabe — e mostro onde a
       analogia quebra.
     </p>
+  </section>
+
+  <section class="topics">
+    <h2>O que você encontra aqui</h2>
+    <ul class="topic-grid">
+      {
+        categories.map((category) => (
+          <li class="topic-tile" style={{ '--category-accent': category.accent }}>
+            <a class="topic-link" href="/blog">
+              <span class="topic-label">{category.label}</span>
+              <p class="topic-description">{category.description}</p>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
   </section>
 
   {
@@ -81,10 +98,73 @@ const latestPosts = (await getPublishedPosts()).slice(0, 6);
     margin-top: 0.75rem;
   }
 
+  .topics h2,
   .series-block h2,
   .latest-posts h2 {
     font-size: 1.4rem;
     margin-bottom: 0.5rem;
+  }
+
+  .topic-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    list-style: none;
+    margin-top: 1.25rem;
+  }
+
+  @media (max-width: 40rem) {
+    .topic-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .topic-tile {
+    position: relative;
+    border: 1px solid var(--ink);
+    border-radius: 4px;
+    background: var(--card);
+    overflow: hidden;
+    transition:
+      background-color 120ms,
+      border-color 120ms;
+  }
+
+  .topic-tile::before {
+    content: '';
+    display: block;
+    height: 3px;
+    background: var(--category-accent);
+  }
+
+  .topic-tile:hover {
+    background: #ffffff;
+    border-color: var(--known-deep);
+  }
+
+  .topic-tile:has(a:focus-visible) {
+    outline: 2px solid var(--known);
+    outline-offset: 2px;
+  }
+
+  .topic-link {
+    display: block;
+    padding: 1rem;
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .topic-label {
+    display: block;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+  }
+
+  .topic-description {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.9rem;
   }
 
   .series-description {
@@ -116,10 +196,6 @@ const latestPosts = (await getPublishedPosts()).slice(0, 6);
   .series-list a {
     color: var(--ink);
     text-decoration: underline;
-    text-decoration-color: var(--rule);
-  }
-
-  .series-list a:hover {
     text-decoration-color: currentColor;
   }
 
@@ -133,10 +209,6 @@ const latestPosts = (await getPublishedPosts()).slice(0, 6);
     font-family: var(--font-sans);
     color: var(--ink);
     text-decoration: underline;
-    text-decoration-color: var(--rule);
-  }
-
-  .series-link:hover {
     text-decoration-color: currentColor;
   }
 
@@ -146,10 +218,6 @@ const latestPosts = (await getPublishedPosts()).slice(0, 6);
     font-family: var(--font-sans);
     color: var(--ink);
     text-decoration: underline;
-    text-decoration-color: var(--rule);
-  }
-
-  .all-posts-link:hover {
     text-decoration-color: currentColor;
   }
 </style>

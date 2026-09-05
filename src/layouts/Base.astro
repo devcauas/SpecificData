@@ -46,6 +46,7 @@ function isActiveLink(href: string): boolean {
         <div class="brand">
           <a href="/" class="logo-link" aria-label={`${site.name} — página inicial`}>
             <Logo size={28} />
+            <span class="brand-name">{site.name}</span>
           </a>
           <p class="header-tagline">{site.headerTagline}</p>
         </div>
@@ -112,14 +113,29 @@ function isActiveLink(href: string): boolean {
 
   .logo-link {
     display: flex;
+    align-items: center;
+    gap: 0.5rem;
     flex-shrink: 0;
     color: var(--ink);
+    text-decoration: none;
+  }
+
+  .brand-name {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 1.05rem;
   }
 
   .header-tagline {
     margin: 0;
     font-size: 0.85rem;
     color: var(--muted);
+  }
+
+  @media (max-width: 40rem) {
+    .header-tagline {
+      display: none;
+    }
   }
 
   .site-header nav,
