@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://specificdata.dev/sitemap-index.xml
+Sitemap: https://specificdata.cauaalmeida2005.workers.dev/sitemap-index.xml

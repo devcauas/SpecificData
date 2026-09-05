@@ -19,7 +19,10 @@ for (const rule of codeTheme.settings ?? codeTheme.tokenColors ?? []) {
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://specificdata.dev',
+  // O domínio specificdata.dev ainda não foi registrado — o site está servido
+  // em specificdata.cauaalmeida2005.workers.dev. Volte para specificdata.dev
+  // quando/se o domínio próprio for registrado e apontado pro deploy.
+  site: 'https://specificdata.cauaalmeida2005.workers.dev',
   build: {
     // CSS por página é pequeno o bastante pra virar <style> inline e eliminar
     // a requisição bloqueante de render.

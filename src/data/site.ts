@@ -5,7 +5,8 @@ export const site = {
   headerTagline: 'Blog de tecnologia e inovações · Cauã Souza Almeida',
   description:
     'Blog técnico sobre IA aplicada, MCP e agentes, escrito para quem já sabe programar e consome APIs no dia a dia.',
-  url: 'https://specificdata.dev',
+  // specificdata.dev ainda não foi registrado — volte pra ele quando/se isso mudar.
+  url: 'https://specificdata.cauaalmeida2005.workers.dev',
   author: {
     name: 'Cauã Souza Almeida',
     github: 'https://github.com/devcauas',
