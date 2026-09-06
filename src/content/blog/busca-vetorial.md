@@ -1,68 +1,76 @@
 ---
-title: Bem-vindo ao SpecificData
+title: A busca do Ctrl+F e a ilusão do resultado exato
 description: O que você vai encontrar aqui, como eu pretendo escrever e o compromisso de transparência sobre o uso de IA no conteúdo.
 date: 2026-09-04
-category: bastidores
-tags: ["apresentação"]
+category: api-integrcao
+tags: ["API"]
 cover: ../../assets/covers/bem-vindo.jpg
 featured: true
 draft: false
 ---
 
-A busca feita com Ctrl+F retornou "0 de 0", isso provavelmente é coisa mais comum de se acontecer, na busca vetorial isso não ocorre, ela não é apenas uma correspondêcia de palavra-chave, ele é bem mais útil, completa e todos já usaram indiretamente.
+Você pesquisa por "temperatura da água" no Ctrl+F. Aparece o resultado "0 de 0". Mas a resposta "92 graus" está ali na sua tela o tempo todo, escrita de outro jeito.
 
-Chatbot, isso está em quase todos os lugares, mas e a recomendação de produtos (filmes, vídeos, objetos, etc.) que você recebe? Exatamente, a busca vetorial está em muitas coisas, sem ela você ainda estaria usando mapas para se locomover. 
+A busca vetorial existe justamente porque o Ctrl+F casa caracteres, não sentido.
 
-Quero que você pense comigo, como uma grande quantidade de informação (Big Data) pode ser usada a seu favor? E como é esse processo? Não é viável e nem estratégico um sistema analisar uma Big Data de uma vez só e sem etapas definidas, ou seja, dividir essas informações (embeddings), nomeá-las por um índice e fazer a correspondêcia dessas consultas é um jeito melhor de fazer as coisas, e isso existe desde de 1950 por Calvin Mooers que formulou a definição da expressão "The requirements of information retrieval, of finding information whose location or very existence is a priori unknown...", conceituando o que ele disse: Você não sabe onde a informação está? Um sistema saberá então.
-
-Embeddings, índice, correpôndencia da consulta, vamos por partes, realizar um Embedding demanda um certo conhecimento em linguagem de programação, Python é a mais comum, mas usa-se C#, R, Javascript, entre outras. Aqui vai um exemplo simples sem código:
-
-Vamos "Jogar quem sou eu?", uma brincadeira muito famosa, mas invés de respostas escritas responderemos com números entre 0 e 1 (linguagem binária)
-
-Perguntas:
-É um objeto? (0 = Não, 1 = Sim)
-É grande? (0 = Não, 1 = Sim, e muito)
+Para entender como o computador traduz palavras em conceitos, pense em um jogo de "Quem Sou Eu?", trocando as respostas por números entre 0 e 1. Imagine duas perguntas ilustrativas — "É um móvel?" e "É grande?":
 
 Cama: [1.0, 1.0]
 Abajur: [1.0, 0.4]
 Ameixa: [0.0, 0.1]
 
-Depois desse exercício mental, a resposta provavelmente seria a cama, mas vamos ao conceito detalhado, isso ocorre por trás dos panos nos exemplos falado acima, o computador faz várias contas até chegar na resposta.
+Como cama e abajur compartilham características, os números deles ficam próximos. A ameixa fica distante de ambos. É a medição dessa distância matemática que substitui a busca por caracteres exatos e permite encontrar o que você quer.
 
-Essas contas são rodeadas de várias fórmulas matemáticas, como:
+(Essas perguntas são só uma demonstração visual. Modelos reais usam centenas de dimensões matemáticas abstratas, e nenhuma delas é uma pergunta legível em português).
 
-$$
-\boxed{
-e_{\text{texto}} =
-\frac{1}{n}
-\sum_{i=1}^{n}
-\operatorname{LayerNorm}
-\left(
-    \operatorname{LayerNorm}
-    \left(
-        X_i +
-        \operatorname{Concat}
-        \left(
-            \operatorname{Softmax}
-            \left(
-                \frac{XW_Q (XW_K)^T}{\sqrt{d_k}}
-            \right)
-            XW_V
-        \right)
-        W_O
-    \right)
-    +
-    W_2
-    \operatorname{GELU}
-    \left(
-        W_1(\cdot) + b_1
-    \right)
-    + b_2
-\right),
-\qquad
-X = E_{\text{token}} + E_{\text{pos}} + E_{\text{segment}}
-}
-$$
+Para testar o conceito na prática, montei um experimento com oito documentos sobre café e fiz duas perguntas ao modelo — uma totalmente fora do assunto e outra diretamente relacionada:
+
+```
+# pip install sentence-transformers
+from sentence_transformers import SentenceTransformer
+import numpy as np
+
+modelo = SentenceTransformer("paraphrase-multilingual-MiniLM-L12-v2")
+
+DOCUMENTOS = [
+    "Moa os grãos na hora, logo antes de extrair o café.",
+    "A água para o café coado deve ficar entre 92 e 96 graus.",
+    "A prensa francesa precisa de moagem grossa e quatro minutos de infusão.",
+    "Café expresso usa moagem fina e cerca de nove bars de pressão.",
+    "Grãos torrados há mais de três semanas perdem aroma.",
+    "O filtro de papel retira parte dos óleos e deixa a bebida mais limpa.",
+    "A proporção inicial recomendada é de 60 gramas de pó por litro de água.",
+    "Guarde os grãos inteiros em pote fechado, longe da luz.",
+]
+
+indice = modelo.encode(DOCUMENTOS, normalize_embeddings=True)
+
+def buscar(pergunta, top_k=3):
+    consulta = modelo.encode([pergunta], normalize_embeddings=True)
+    scores = (indice @ consulta.T).ravel()
+    for posicao in np.argsort(-scores)[:top_k]:
+        print(f"score {scores[posicao]:.3f}  |  {DOCUMENTOS[posicao]}")
+
+print("Pergunta fora do índice:")
+buscar("Como faço para renovar meu passaporte brasileiro?", top_k=3)
+
+print("\nPergunta dentro do índice:")
+buscar("Qual a temperatura da água para o café?", top_k=3)
+```
+
+Pergunta fora do índice:
+score 0.068  |  O filtro de papel retira parte dos óleos e deixa a bebida mais limpa.
+score 0.064  |  A prensa francesa precisa de moagem grossa e quatro minutos de infusão.
+score 0.020  |  Grãos torrados há mais de três semanas perdem aroma.
+
+Pergunta dentro do índice:
+score 0.796  |  A água para o café coado deve ficar entre 92 e 96 graus.
+score 0.555  |  Moa os grãos na hora, logo antes de extrair o café.
+score 0.467  |  A proporção inicial recomendada é de 60 gramas de pó por litro de água.
+
+O modelo registrou a diferença: a pergunta sobre a água teve score 0.796 contra no máximo 0.068 da pergunta sobre o passaporte. Ainda assim, a busca fora do assunto retornou três resultados sobre café porque a instrução [:top_k] dentro da função buscar obriga o código a fatiar e entregar os top_k primeiros itens ordenados, sem o poder de dizer "não encontrei". Diferente do Ctrl+F, que possui o estado "0 de 0", a busca vetorial por padrão sempre trará os resultados mais próximos da base, mesmo que essa proximidade seja irrelevante.
+
+Para evitar que o seu sistema envie "lixo confiável" para o modelo de linguagem no RAG, a solução é definir uma nota mínima antes de retornar a lista — algo simples como if score < limiar: return []. Esse limiar deve ser calibrado de acordo com o seu próprio corpus, pois uma pontuação de 0.3 em uma base pode ser ruído e, em outra, um bom resultado. Sem esse filtro, o sistema empurra trechos irrelevantes para dentro do prompt, e é exatamente aí que nascem as respostas educadas, porém erradas.
 
 Fontes:
 https://www.databricks.com/br/blog/vector-search
