@@ -2,7 +2,7 @@
 title: A busca do Ctrl+F e a ilusão do resultado exato
 description: O que você vai encontrar aqui, como eu pretendo escrever e o compromisso de transparência sobre o uso de IA no conteúdo.
 date: 2026-09-04
-category: api-integrcao
+category: apis-integracao
 tags: ["API"]
 cover: ../../assets/covers/bem-vindo.jpg
 featured: true
