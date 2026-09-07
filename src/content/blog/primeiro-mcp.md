@@ -5,7 +5,7 @@ date: 2026-09-07
 category: bastidores
 tags: ["mcp", "agentes"]
 cover: ../../assets/covers/mcp-server.jpg
-draft: true
+draft: false
 ---
 
 Na primeira vez que tentei criar um servidor com MCP, imaginei que bastava executar o arquivo Python. O processo iniciava normalmente, não havia erro no terminal e o servidor permanecia em execução.
