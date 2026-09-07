@@ -11,8 +11,8 @@ draft: false
 
 Bem-vindo ao meu portfólio e hub de artigos.
 
-Vou construir pesquisas relevantes para a área de tecnologia, fomentando ideias que estão em alta no mercado e as principais inovações no ramo tecnológico mundial. Meus pontos fortes são a curiosidade diária com ferramentas, plataformas e pessoas que motorizam a área.
+Vou construir pesquisas relevantes para a área de tecnologia, fomentando ideias que estão em alta no mercado e as principais inovações no ramo tecnológico mundial. Meus pontos fortes são a curiosidade diária com ferramentas, plataformas e pessoas que impulsionam a área.
 
-Serei específico em todo o conteúdo, indo de A a Z, de forma exploratória e com perguntas constantes para guiar a máxima abstração dos leitores. Usarei analogias e dedicarei semanalmente um post para a comunidade no LinkedIn.
+Serei específico em todo o conteúdo, indo de A a Z, de forma exploratória e com perguntas constantes para estimular a máxima reflexão dos leitores. Usarei analogias e dedicarei um post semanal para a comunidade no LinkedIn.
 
-Sempre prezarei o melhor conteúdo, explicando de forma didática e entregando o melhor aos leitores e interessados nos temas propostos.
+Sempre prezarei pelo conteúdo de alta qualidade, explicando de forma didática e entregando o meu melhor aos leitores e interessados nos temas propostos.
