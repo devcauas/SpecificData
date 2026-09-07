@@ -22,7 +22,7 @@ export default defineConfig({
   // O domínio specificdata.dev ainda não foi registrado — o site está servido
   // em specificdata.cauaalmeida2005.workers.dev. Volte para specificdata.dev
   // quando/se o domínio próprio for registrado e apontado pro deploy.
-  site: 'https://specificdata.cauaalmeida2005.workers.dev',
+  site: 'https://specificdata.dev',
   build: {
     // CSS por página é pequeno o bastante pra virar <style> inline e eliminar
     // a requisição bloqueante de render.

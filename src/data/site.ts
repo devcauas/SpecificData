@@ -1,12 +1,11 @@
 export const site = {
   name: 'SpecificData',
-  tagline: 'Blog das principais novidades em tecnologia, sem começar do zero.',
+  tagline: 'Conceitos explicados por analogias — e onde elas quebram no código real.',
   /** Linha curta ao lado do ícone no cabeçalho. */
-  headerTagline: 'Tecnologia e inovações · Cauã Souza Almeida',
+  headerTagline: 'Ciência de Dados · Cauã Souza Almeida',
   description:
-    'Blog técnico sobre tecnologia e as principais novidades do mercado.',
-  // specificdata.dev ainda não foi registrado — volte pra ele quando/se isso mudar.
-  url: 'https://specificdata.cauaalmeida2005.workers.dev',
+    'Blog técnico com conceitos ancorados em algo que o programador já usa, escrito por quem pratica e estuda tecnologia diariamente.',
+  url: 'https://specificdata.dev',
   author: {
     name: 'Cauã Souza Almeida',
     github: 'https://github.com/devcauas',
