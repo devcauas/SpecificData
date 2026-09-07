@@ -2,24 +2,22 @@
 import Base from '../../layouts/Base.astro';
 import PostCard from '../../components/PostCard.astro';
 import { site } from '../../data/site';
-import { getAllTags, getPostsByTag } from '../../lib/posts';
+import { getTagGroups, type TagGroup } from '../../lib/posts';
 
 export async function getStaticPaths() {
-  const tags = await getAllTags();
-  return Promise.all(
-    tags.map(async (tag) => ({
-      params: { tag },
-      props: { posts: await getPostsByTag(tag) },
-    })),
-  );
+  const groups = await getTagGroups();
+  return groups.map((group) => ({
+    params: { tag: group.slug },
+    props: { tag: group.tag, posts: group.posts },
+  }));
 }
 
 interface Props {
-  posts: Awaited<ReturnType<typeof getPostsByTag>>;
+  tag: TagGroup['tag'];
+  posts: TagGroup['posts'];
 }
 
-const { tag } = Astro.params;
-const { posts } = Astro.props;
+const { tag, posts } = Astro.props;
 ---
 
 <Base title={`#${tag}`} description={`Posts com a tag "${tag}" no ${site.name}.`}>

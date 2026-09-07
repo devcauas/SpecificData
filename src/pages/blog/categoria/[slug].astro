@@ -1,0 +1,36 @@
+---
+import Base from '../../../layouts/Base.astro';
+import PostCard from '../../../components/PostCard.astro';
+import { categories, getCategory } from '../../../data/categories';
+import { getPublishedPosts } from '../../../lib/posts';
+
+export async function getStaticPaths() {
+  return categories.map((category) => ({ params: { slug: category.slug } }));
+}
+
+const { slug } = Astro.params;
+const category = getCategory(slug as (typeof categories)[number]['slug']);
+
+const posts = (await getPublishedPosts()).filter((post) => post.data.category === category.slug);
+---
+
+<Base title={category.label} description={`${category.description} ${posts.length} ${posts.length === 1 ? 'post' : 'posts'} no ${category.label}.`}>
+  <h1>{category.label}</h1>
+  <p class="count">{posts.length} {posts.length === 1 ? 'post' : 'posts'}</p>
+
+  <ul class="posts">
+    {posts.map((post) => <PostCard post={post} />)}
+  </ul>
+</Base>
+
+<style>
+  h1 {
+    margin-bottom: 0.5rem;
+  }
+
+  .count {
+    font-family: var(--font-sans);
+    color: var(--muted);
+    margin-bottom: 2rem;
+  }
+</style>

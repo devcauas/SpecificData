@@ -31,7 +31,7 @@ const latestPosts = (await getPublishedPosts()).slice(0, 6);
       {
         categories.map((category) => (
           <li class="topic-tile" style={{ '--category-accent': category.accent }}>
-            <a class="topic-link" href="/blog">
+            <a class="topic-link" href={`/blog/categoria/${category.slug}`}>
               <span class="topic-label">{category.label}</span>
               <p class="topic-description">{category.description}</p>
             </a>

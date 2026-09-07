@@ -81,20 +81,50 @@ export async function getSeriesNeighbors(post: Post): Promise<SeriesNeighbors | 
   };
 }
 
-/** Tags únicas presentes nos posts visíveis, ordenadas alfabeticamente. */
-export async function getAllTags(): Promise<string[]> {
-  const posts = await getPublishedPosts();
-  const tags = new Set<string>();
-  for (const post of posts) {
-    for (const tag of post.data.tags) tags.add(tag);
-  }
-  return [...tags].sort((a, b) => a.localeCompare(b, 'pt-BR'));
+/** Forma URL-segura de uma tag: minúsculas, sem acento, espaço vira hífen. */
+export function slugifyTag(tag: string): string {
+  return tag
+    .normalize('NFD')
+    .replace(new RegExp('[\\u0300-\\u036f]', 'g'), '')
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, '-')
+    .replace(/[^a-z0-9-]/g, '');
 }
 
-/** Posts visíveis que carregam a tag informada, ordenados por data decrescente. */
-export async function getPostsByTag(tag: string): Promise<Post[]> {
+export interface TagGroup {
+  /** Forma usada na URL — única por grupo. */
+  slug: string;
+  /** Grafia original da tag, usada como rótulo. Vem do primeiro post encontrado. */
+  tag: string;
+  /** Posts de todas as tags que colidem nesse slug (ex.: "RAG" e "rag"), sem duplicar. */
+  posts: Post[];
+}
+
+/**
+ * Agrupa as tags dos posts visíveis pelo slug (lib/posts.ts:slugifyTag), não
+ * pela grafia. Duas tags que só diferem em acento/maiúscula (ex.: "Busca
+ * Vetorial" e "busca-vetorial") colidiriam na mesma URL /tag/<slug> — agrupar
+ * aqui evita que getStaticPaths gere dois caminhos com o mesmo param, o que
+ * quebraria o build.
+ */
+export async function getTagGroups(): Promise<TagGroup[]> {
   const posts = await getPublishedPosts();
-  return posts.filter((post) => post.data.tags.includes(tag));
+  const groups = new Map<string, TagGroup>();
+
+  for (const post of posts) {
+    for (const tag of post.data.tags) {
+      const slug = slugifyTag(tag);
+      const group = groups.get(slug);
+      if (group) {
+        group.posts.push(post);
+      } else {
+        groups.set(slug, { slug, tag, posts: [post] });
+      }
+    }
+  }
+
+  return [...groups.values()].sort((a, b) => a.tag.localeCompare(b.tag, 'pt-BR'));
 }
 
 /** Tempo de leitura em minutos, ignorando blocos de código. */

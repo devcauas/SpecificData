@@ -4,7 +4,7 @@ import Base from './Base.astro';
 import Prose from '../components/Prose.astro';
 import SeriesNav from '../components/SeriesNav.astro';
 import { getSeries } from '../data/series';
-import { getReadingTime, getSeriesNeighbors } from '../lib/posts';
+import { getReadingTime, getSeriesNeighbors, slugifyTag } from '../lib/posts';
 
 interface Props {
   post: CollectionEntry<'blog'>;
@@ -68,7 +68,7 @@ const dateFormatter = new Intl.DateTimeFormat('pt-BR', {
           <ul class="tags">
             {data.tags.map((tag) => (
               <li>
-                <a href={`/tag/${tag}`}>{tag}</a>
+                <a href={`/tag/${slugifyTag(tag)}`}>{tag}</a>
               </li>
             ))}
           </ul>
