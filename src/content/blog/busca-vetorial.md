@@ -1,23 +1,22 @@
 ---
 title: A busca do Ctrl+F e a ilusão do resultado exato
-description: O que você vai encontrar aqui, como eu pretendo escrever e o compromisso de transparência sobre o uso de IA no conteúdo.
-date: 2026-09-04
+description: A busca vetorial não substitui o Ctrl+F por mágica, mas pelo contexto. Mesmo quando não tem uma resposta, ela sempre devolve algo.
+date: 2026-09-06
 category: apis-integracao
-tags: ["API"]
-cover: ../../assets/covers/bem-vindo.jpg
-featured: true
-draft: false
+tags: ["busca vetorial", "embeddings", "rag"]
+cover: ../../assets/covers/ctrl-f.jpg
+draft: true
 ---
 
 Você pesquisa por "temperatura da água" no Ctrl+F. Aparece o resultado "0 de 0". Mas a resposta "92 graus" está ali na sua tela o tempo todo, escrita de outro jeito.
 
-A busca vetorial existe justamente porque o Ctrl+F casa caracteres, não sentido.
+A busca vetorial existe justamente porque o Ctrl+F casa os caracteres, não o sentido.
 
 Para entender como o computador traduz palavras em conceitos, pense em um jogo de "Quem Sou Eu?", trocando as respostas por números entre 0 e 1. Imagine duas perguntas ilustrativas — "É um móvel?" e "É grande?":
 
-Cama: [1.0, 1.0]
-Abajur: [1.0, 0.4]
-Ameixa: [0.0, 0.1]
+* Cama: [1.0, 1.0]
+* Abajur: [1.0, 0.4]
+* Ameixa: [0.0, 0.1]
 
 Como cama e abajur compartilham características, os números deles ficam próximos. A ameixa fica distante de ambos. É a medição dessa distância matemática que substitui a busca por caracteres exatos e permite encontrar o que você quer.
 
@@ -25,7 +24,7 @@ Como cama e abajur compartilham características, os números deles ficam próxi
 
 Para testar o conceito na prática, montei um experimento com oito documentos sobre café e fiz duas perguntas ao modelo — uma totalmente fora do assunto e outra diretamente relacionada:
 
-```
+```python
 # pip install sentence-transformers
 from sentence_transformers import SentenceTransformer
 import numpy as np
@@ -57,7 +56,7 @@ buscar("Como faço para renovar meu passaporte brasileiro?", top_k=3)
 print("\nPergunta dentro do índice:")
 buscar("Qual a temperatura da água para o café?", top_k=3)
 ```
-
+```text
 Pergunta fora do índice:
 score 0.068  |  O filtro de papel retira parte dos óleos e deixa a bebida mais limpa.
 score 0.064  |  A prensa francesa precisa de moagem grossa e quatro minutos de infusão.
@@ -67,11 +66,17 @@ Pergunta dentro do índice:
 score 0.796  |  A água para o café coado deve ficar entre 92 e 96 graus.
 score 0.555  |  Moa os grãos na hora, logo antes de extrair o café.
 score 0.467  |  A proporção inicial recomendada é de 60 gramas de pó por litro de água.
+```
 
-O modelo registrou a diferença: a pergunta sobre a água teve score 0.796 contra no máximo 0.068 da pergunta sobre o passaporte. Ainda assim, a busca fora do assunto retornou três resultados sobre café porque a instrução [:top_k] dentro da função buscar obriga o código a fatiar e entregar os top_k primeiros itens ordenados, sem o poder de dizer "não encontrei". Diferente do Ctrl+F, que possui o estado "0 de 0", a busca vetorial por padrão sempre trará os resultados mais próximos da base, mesmo que essa proximidade seja irrelevante.
+A escala entre esses vetores se dá pela similaridade de cosseno, medindo o ângulo entre os dois vetores em um espaço multidimensional, mais precisamente as 384 dimensões usadas no exemplo. O resultado dessa escala então fica entre -1 e 1, onde:
+* 1: Vetores idênticos ou que estão apontados na mesma direção
+* 0: Vetores ortogonais ou que não possuem relação alguma
+* -1: Vetores com direções opostas
 
-Para evitar que o seu sistema envie "lixo confiável" para o modelo de linguagem no RAG, a solução é definir uma nota mínima antes de retornar a lista — algo simples como if score < limiar: return []. Esse limiar deve ser calibrado de acordo com o seu próprio corpus, pois uma pontuação de 0.3 em uma base pode ser ruído e, em outra, um bom resultado. Sem esse filtro, o sistema empurra trechos irrelevantes para dentro do prompt, e é exatamente aí que nascem as respostas educadas, porém erradas.
+Mas por que 0.068 e não 0.0? Embora "passaporte" e "café" não tenham relação semântica, o valor não é exatamente zero porque ambas as frases compartilham a mesma língua (português), a mesma estrutura de pergunta e palavras funcionais semelhantes. O modelo captura esses elementos como um sinal muito fraco, e um resultado próximo de zero indica, na prática, a ausência de relação entre os conceitos.
 
-Fontes:
-https://www.databricks.com/br/blog/vector-search
-https://www.datacamp.com/pt/tutorial/euclidean-distance
+O modelo registrou a diferença: a pergunta sobre a água teve score 0.796 contra no máximo 0.068 da pergunta sobre o passaporte. 
+
+Ainda assim, a busca fora do assunto retornou três resultados sobre café porque a instrução `[:top_k]`, dentro da função `buscar`, fatia o topo da lista sem consultar a pontuação de nenhum item, sem o poder do Ctrl+F de dizer "não encontrei". Diferente dele, que possui o estado "0 de 0", a busca vetorial por padrão sempre traz os resultados mais próximos da base, mesmo que essa proximidade seja irrelevante.
+
+Para evitar que o seu sistema envie uma "sujeira confiável", ou seja, qualquer informação sem tratamento, para o modelo de linguagem que utiliza RAG, por exemplo, a solução é definir uma nota mínima antes de retornar a lista, algo simples como `if score < limiar: return []`, impede a sujeira de passar. Esse limiar deve ser calibrado de acordo com o próprio conjunto de documentos que for indexado, pois uma pontuação de 0.3 em uma base pode ser ruído e, em outra, um bom resultado, dependendo do contexto. Sem esse filtro aplicado no código, o sistema empurra trechos irrelevantes para dentro do prompt, e é exatamente aí que nascem as respostas educadas, porém erradas.
