@@ -5,7 +5,7 @@ date: 2026-09-06
 category: apis-integracao
 tags: ["busca vetorial", "embeddings", "rag"]
 cover: ../../assets/covers/ctrl-f.jpg
-draft: true
+draft: false
 ---
 
 Você pesquisa por "temperatura da água" no Ctrl+F. Aparece o resultado "0 de 0". Mas a resposta "92 graus" está ali na sua tela o tempo todo, escrita de outro jeito.
