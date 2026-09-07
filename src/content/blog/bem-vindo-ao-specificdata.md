@@ -1,18 +1,22 @@
 ---
 title: Bem-vindo ao SpecificData
-description: O que você vai encontrar aqui, como eu pretendo escrever e o compromisso de transparência sobre o uso de IA no conteúdo.
+description: O que você vai encontrar aqui, como eu pretendo escrever e o conteúdo proposto nos artigos
 date: 2026-09-04
 category: bastidores
-tags: ["apresentação"]
+tags: ["apresentação", "specificdata", "blog"]
 cover: ../../assets/covers/bem-vindo.jpg
 featured: true
 draft: false
 ---
 
-Bem-vindo ao meu portfólio e hub de artigos.
+Bem-vindo ao SpecificData, meu portfólio e hub de artigos sobre tecnologia, inteligência artificial, desenvolvimento de software e ciência de dados.
 
-Vou construir pesquisas relevantes para a área de tecnologia, fomentando ideias que estão em alta no mercado e as principais inovações no ramo tecnológico mundial. Meus pontos fortes são a curiosidade diária com ferramentas, plataformas e pessoas que impulsionam a área.
+Este espaço reúne estudos, experimentos, tutoriais e análises técnicas sobre temas que estou explorando na prática. A ideia não é apenas explicar ferramentas, mas entender como elas funcionam, onde fazem sentido e quais limitações existem em cada abordagem.
 
-Serei específico em todo o conteúdo, indo de A a Z, de forma exploratória e com perguntas constantes para estimular a máxima reflexão dos leitores. Usarei analogias e dedicarei um post semanal para a comunidade no LinkedIn.
+Você vai encontrar conteúdos sobre RAG, LLMs, Machine Learning, Python, SQL, arquitetura de sistemas, automações, engenharia de dados e outros conceitos que fazem parte do ecossistema de IA e desenvolvimento.
 
-Sempre prezarei pelo conteúdo de alta qualidade, explicando de forma didática e entregando o meu melhor aos leitores e interessados nos temas propostos.
+Meu objetivo é escrever artigos específicos e aprofundados, usando exemplos, analogias e experimentos reproduzíveis para transformar conceitos complexos em explicações mais claras. Sempre que possível, cada artigo terá código, testes ou demonstrações práticas.
+
+Além dos artigos publicados aqui, compartilho um conteúdo por semana no LinkedIn com versões mais curtas, discussões e aprendizados que complementam o blog.
+
+Se você gosta de entender a tecnologia além da superfície, este é o lugar.
