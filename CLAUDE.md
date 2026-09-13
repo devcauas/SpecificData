@@ -76,5 +76,16 @@ em `src/data/series.ts` e `series.order` não pode colidir com outro post.
     quebraria a tag. Qualquer outro uso de `set:html` continua proibido — pergunte
     antes.
 - Nenhum segredo no repositório, nem em exemplo de código de post.
-- Link externo sempre com `rel="noopener noreferrer"`.
+- Link em post é sempre sintaxe Markdown `[texto](url)`, nunca tag `<a>`
+  escrita à mão. O `rehypeExternalLinks` em `astro.config.mjs` injeta
+  `rel="noopener noreferrer"` automaticamente em todo link externo em
+  Markdown — mas não intercepta HTML bruto, então só funciona assim.
 - Dependência nova precisa de justificativa — o site é estático e sem JS.
+
+## Decisões registradas
+
+- **13/09/2026 — npm audit.** Reporta vulnerabilidades em `astro`, `esbuild` e
+  `sharp`; nenhuma afeta o site, que é estático e sem runtime dinâmico.
+  Decisão: não rodar `npm audit fix --force` — sobe o Astro pra uma major sem
+  reduzir risco real. Reavaliar se houver motivo positivo pra atualizar ou um
+  advisory passar a afetar o build/runtime.
