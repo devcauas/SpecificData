@@ -3,11 +3,13 @@
   "name": "specificdata",
   "compatibility_date": "2026-09-04",
   "preview_urls": false,
-  "main": "./worker/index.js",
+  "workers_dev": false,
   "assets": {
     "directory": "./dist",
     "binding": "ASSETS",
-    "run_worker_first": true,
     "not_found_handling": "404-page"
+  },
+  "observability": {
+    "enabled": true
   }
 }
