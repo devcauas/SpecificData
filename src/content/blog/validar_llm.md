@@ -4,7 +4,7 @@ description: "A resposta de um LLM é uma entrada não confiável e precisa de u
 date: "2026-09-11"
 category: apis-integracao
 tags: ["llm", "ia-generativa", "api", "validacao", "alucinacao"]
-cover: ../../assets/covers/200-ok.jpg
+cover: ../../assets/covers/duzentos-ok.jpg
 draft: false
 ---
 
