@@ -1,4 +1,5 @@
 ---
+import { createHash } from 'node:crypto';
 import { site } from '../data/site';
 
 interface Props {
@@ -21,6 +22,15 @@ const {
 
 const canonicalURL = new URL(Astro.url.pathname, site.url);
 const ogImage = new URL(image ?? '/og/default.png', site.url);
+if (image) {
+  // A imagem OG traz título e description desenhados; a versão na URL muda
+  // quando eles mudam e força o LinkedIn a buscar a imagem de novo.
+  const ogVersion = createHash('sha256')
+    .update(`${title}\n${description}`)
+    .digest('hex')
+    .slice(0, 8);
+  ogImage.searchParams.set('v', ogVersion);
+}
 const pageTitle = title === site.name ? title : `${title} · ${site.name}`;
 
 const jsonLd =
