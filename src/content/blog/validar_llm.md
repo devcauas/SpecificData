@@ -5,7 +5,7 @@ date: "2026-09-11"
 category: apis-integracao
 tags: ["llm", "ia-generativa", "api", "validacao", "alucinacao"]
 cover: ../../assets/covers/duzentos-ok.jpg
-draft: false
+draft: true
 ---
 
 Um `200 OK` não significa que o dado está certo.
