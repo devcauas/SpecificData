@@ -1,6 +1,6 @@
 ---
 title: Os três erros que cometi ao subir meu primeiro MCP
-description: "Três problemas que cometi ao criar um servidor MCP: registro no Claude Code, arquitetura cliente-servidor e erro de segurança no sistema de arquivos."
+description: "Três erros ao criar um servidor MCP: registro no Claude Code, arquitetura cliente-servidor e uma falha de segurança no sistema de arquivos."
 date: 2026-09-07
 category: mcp-agentes
 tags: ["mcp", "agentes"]
