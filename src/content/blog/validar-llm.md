@@ -5,7 +5,7 @@ date: "2026-09-11"
 category: apis-integracao
 tags: ["llm", "ia-generativa", "api", "validacao", "alucinacao"]
 cover: ../../assets/covers/duzentos-ok.jpg
-draft: true
+draft: false
 ---
 
 Um `200 OK` não significa que o dado está certo.
@@ -14,7 +14,7 @@ Você já escreveu código que valida respostas de APIs antes de usá-las, porqu
 
 Este texto não fala sobre prompts melhores. Ele fala sobre um problema de arquitetura: como verificar uma resposta de IA antes de confiar nela.
 
-## O escopo deste artigo
+## O escopo do artigo
 
 Este artigo trata apenas de respostas que possuem uma **fonte externa de verdade**. Consultas em bancos de dados, APIs, documentos de um sistema RAG ou qualquer informação que possa ser confirmada por outra fonte entram nesse cenário.
 
@@ -77,11 +77,9 @@ A segunda garante que ela responde à pergunta correta.
 
 A consulta com `ILIKE '%GAZIN%'` passa pela primeira camada e falha na segunda. Este é o limite da validação estrutural e o motivo pelo qual aplicações com LLM precisam de verificadores independentes.
 
-## Onde a analogia com APIs quebra
+## A relação com APIs
 
 Até aqui, a comparação com uma API funciona.
-
-Agora ela quebra.
 
 A solução imediata costuma ser pedir para outro LLM revisar essa consulta. O problema é que isso não cria um verificador independente, apenas adiciona outro modelo ao fluxo.
 
