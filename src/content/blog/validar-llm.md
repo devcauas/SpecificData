@@ -40,7 +40,7 @@ O modelo gera a seguinte consulta SQL:
 ```sql
 SELECT
   SUM(quantidade_estoque) AS total_estoque
-FROM treinamento.specific_gold_ai.cliente_produto_estoque
+FROM exemplo.gold.cliente_produto_estoque
 WHERE nome_cliente ILIKE '%GAZIN%';
 ```
 
@@ -101,7 +101,7 @@ Se o modelo gerar um filtro por substring (`%GAZIN%`), o sistema executa uma che
 
 ```sql
 SELECT COUNT(DISTINCT nome_cliente) AS clientes_encontrados
-FROM treinamento.specific_gold_ai.cliente_produto_estoque
+FROM exemplo.gold.cliente_produto_estoque
 WHERE nome_cliente ILIKE '%GAZIN%';
 ```
 
