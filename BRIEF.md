@@ -11,7 +11,7 @@ construção do site. Ler por inteiro antes de escrever código.
 **Domínio:** specificdata.dev
 **Autor:** Cauã Souza Almeida
 **GitHub:** https://github.com/devcauas
-**LinkedIn:** www.linkedin.com/in/cauasouzaalmeida
+**LinkedIn:** [www.linkedin.com/in/cauasouzaalmeida](https://www.linkedin.com/in/cauasouzaalmeida)
 
 **Tagline:** IA aplicada, explicada a partir do que você já sabe.
 

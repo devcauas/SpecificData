@@ -9,7 +9,7 @@ export const site = {
   author: {
     name: 'Cauã Souza Almeida',
     github: 'https://github.com/devcauas',
-    linkedin: 'www.linkedin.com/in/cauasouzaalmeida',
+    linkedin: 'https://www.linkedin.com/in/cauasouzaalmeida',
     email: 'cauaalmeida2005@gmail.com',
   },
 } as const;
