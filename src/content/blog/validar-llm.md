@@ -26,13 +26,13 @@ Considere uma tabela simples de clientes.
 
 | cliente | estoque |
 |---------------|--------------------|
-| CLIENTE_A | 1500 |
-| CLIENTE_B | 6000 |
+| VALE | 1500 |
+| INTERVALE | 6000 |
 
 Você pergunta ao agente:
 
 ```text
-Qual é o estoque total da CLIENTE_A?
+Qual é o estoque total do VALE?
 ```
 
 O modelo gera a seguinte consulta SQL:
@@ -41,7 +41,7 @@ O modelo gera a seguinte consulta SQL:
 SELECT
   SUM(estoque) AS total_estoque
 FROM exemplo.gold.cliente_produto_estoque
-WHERE cliente ILIKE '%CLIENTE_A%';
+WHERE cliente ILIKE '%VALE%';
 ```
 
 À primeira vista, tudo parece correto.
@@ -55,7 +55,7 @@ Em outras palavras: a consulta recebe o equivalente a um **200 OK**.
 
 O problema está escondido em um único detalhe.
 
-`CLIENTE_B` contém a substring **CLIENTE_A**. Como `ILIKE '%CLIENTE_A%'` procura qualquer ocorrência dessa sequência de caracteres, a consulta soma os registros de **CLIENTE_A** e **CLIENTE_B** sem perceber.
+`INTERVALE` contém a substring **VALE**. Como `ILIKE '%VALE%'` procura qualquer ocorrência dessa sequência de caracteres, a consulta soma os registros de **VALE** e **INTERVALE** sem perceber.
 
 O resultado continua plausível. Não existe erro de sintaxe, nem erro de schema. Existe um erro de interpretação da regra de negócio.
 
@@ -67,7 +67,7 @@ A consulta gerada pelo modelo passa por todas as verificações estruturais.
 
 | Validação de estrutura | Validação de verdade |
 |-------------------------|----------------------|
-| O SQL executa sem erro. | Apenas a CLIENTE_A foi considerada. |
+| O SQL executa sem erro. | Apenas o VALE foi considerada. |
 | As colunas existem. | Nenhum outro cliente entrou no resultado. |
 | Os tipos estão corretos. | A regra de negócio foi respeitada. |
 
@@ -75,7 +75,7 @@ A primeira camada garante que a consulta pode ser executada.
 
 A segunda garante que ela responde à pergunta correta.
 
-A consulta com `ILIKE '%CLIENTE_A%'` passa pela primeira camada e falha na segunda. Este é o limite da validação estrutural e o motivo pelo qual aplicações com LLM precisam de verificadores independentes.
+A consulta com `ILIKE '%VALE%'` passa pela primeira camada e falha na segunda. Este é o limite da validação estrutural e o motivo pelo qual aplicações com LLM precisam de verificadores independentes.
 
 ## A relação com APIs
 
@@ -83,7 +83,7 @@ Até aqui, a comparação com uma API funciona.
 
 A solução imediata costuma ser pedir para outro LLM revisar essa consulta. O problema é que isso não cria um verificador independente, apenas adiciona outro modelo ao fluxo.
 
-O primeiro modelo gerou `ILIKE '%CLIENTE_A%'` porque esse filtro parece compatível com a pergunta. O segundo modelo analisa exatamente a mesma consulta e chega à mesma conclusão pelo mesmo motivo: a consulta é sintaticamente válida e semanticamente plausível.
+O primeiro modelo gerou `ILIKE '%VALE%'` porque esse filtro parece compatível com a pergunta. O segundo modelo analisa exatamente a mesma consulta e chega à mesma conclusão pelo mesmo motivo: a consulta é sintaticamente válida e semanticamente plausível.
 
 O ponto não é que o segundo modelo não conhece a tabela. Mesmo conhecendo a tabela, ele continua sendo um modelo de linguagem avaliando uma hipótese produzida por outro modelo de linguagem.
 
@@ -97,12 +97,12 @@ A resposta não é outro LLM.
 
 A aplicação executa uma verificação independente antes de confiar na consulta gerada pelo modelo. Em vez de perguntar se o SQL parece correto, ela valida uma propriedade objetiva da resposta usando a própria base de dados.
 
-Se o modelo gerar um filtro por substring (`%CLIENTE_A%`), o sistema executa uma checagem simples:
+Se o modelo gerar um filtro por substring (`%VALE%`), o sistema executa uma checagem simples:
 
 ```sql
 SELECT COUNT(DISTINCT cliente) AS clientes_encontrados
 FROM exemplo.gold.cliente_produto_estoque
-WHERE cliente ILIKE '%CLIENTE_A%';
+WHERE cliente ILIKE '%VALE%';
 ```
 
 O resultado dessa consulta não depende da interpretação de um modelo.
@@ -127,7 +127,7 @@ O fluxo deixa de ser **LLM → Banco** e passa a separar geração e verificaç�
 
 ```json
 {
-  "cliente": "CLIENTE_A"
+  "cliente": "VALE"
 }
 ```
 

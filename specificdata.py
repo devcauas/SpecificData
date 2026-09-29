@@ -4,33 +4,33 @@ con = sqlite3.connect(":memory:")
 con.execute("ATTACH DATABASE ':memory:' AS gold")
 con.execute("""
     CREATE TABLE gold.cliente_produto_estoque (
-        nome_cliente    TEXT,
-        quantidade_estoque INTEGER
+        cliente TEXT,
+        estoque INTEGER
     )
 """)
 con.executemany(
     "INSERT INTO gold.cliente_produto_estoque VALUES (?, ?)",
-    [("GAZIN", 1200), ("MAGAZINE LUIZA", 4800)],
+    [("VALE", 1500), ("INTERVALE", 6000)],
 )
 
 consulta_do_modelo = """
-SELECT SUM(quantidade_estoque) AS total_estoque
+SELECT SUM(estoque) AS total_estoque
 FROM gold.cliente_produto_estoque
-WHERE nome_cliente LIKE '%GAZIN%'
+WHERE cliente LIKE '%VALE%'
 """
 
 verificador = """
-SELECT COUNT(DISTINCT nome_cliente) AS clientes_encontrados
+SELECT COUNT(DISTINCT cliente) AS clientes_encontrados
 FROM gold.cliente_produto_estoque
-WHERE nome_cliente LIKE '%GAZIN%'
+WHERE cliente LIKE '%VALE%'
 """
 
-print("Pergunta: qual o estoque total da Gazin?")
+print("Pergunta: qual o estoque total do VALE?")
 print()
 
 total = con.execute(consulta_do_modelo).fetchone()[0]
 print("SQL do modelo ......... 200 OK")
-print(f"total_estoque ......... {total}      (resposta certa: 1200)")
+print(f"total_estoque ......... {total}      (resposta certa: 1500)")
 print()
 
 clientes = con.execute(verificador).fetchone()[0]
