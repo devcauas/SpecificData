@@ -18,5 +18,3 @@ Você vai encontrar conteúdos sobre RAG, LLMs, Machine Learning, Python, SQL, a
 Meu objetivo é escrever artigos específicos e aprofundados, usando exemplos, analogias e experimentos reproduzíveis para transformar conceitos complexos em explicações mais claras. Sempre que possível, cada artigo terá código, testes ou demonstrações práticas.
 
 Além dos artigos publicados aqui, compartilho um conteúdo por semana no LinkedIn com versões mais curtas, discussões e aprendizados que complementam o blog.
-
-Se você gosta de entender a tecnologia além da superfície, este é o lugar.

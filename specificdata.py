@@ -1,26 +1,39 @@
-from mcp.server import MCPServer
-from pathlib import Path
+import sqlite3
 
-mcp = MCPServer("arquivos")
+con = sqlite3.connect(":memory:")
+con.execute("ATTACH DATABASE ':memory:' AS gold")
+con.execute("""
+    CREATE TABLE gold.cliente_produto_estoque (
+        nome_cliente    TEXT,
+        quantidade_estoque INTEGER
+    )
+""")
+con.executemany(
+    "INSERT INTO gold.cliente_produto_estoque VALUES (?, ?)",
+    [("GAZIN", 1200), ("MAGAZINE LUIZA", 4800)],
+)
 
-ROOT = (Path(__file__).parent / "workspace").resolve()
-ROOT.mkdir(exist_ok=True)
-(ROOT / "anotacoes.txt").write_text("Rascunho do artigo sobre MCP.", encoding="utf-8")
+consulta_do_modelo = """
+SELECT SUM(quantidade_estoque) AS total_estoque
+FROM gold.cliente_produto_estoque
+WHERE nome_cliente LIKE '%GAZIN%'
+"""
 
+verificador = """
+SELECT COUNT(DISTINCT nome_cliente) AS clientes_encontrados
+FROM gold.cliente_produto_estoque
+WHERE nome_cliente LIKE '%GAZIN%'
+"""
 
-@mcp.tool()
-def read_file(path: str) -> str:
-    file_path = (ROOT / path).resolve()
+print("Pergunta: qual o estoque total da Gazin?")
+print()
 
-    if not file_path.is_relative_to(ROOT):
-        raise PermissionError("Arquivo fora do diretório permitido.")
+total = con.execute(consulta_do_modelo).fetchone()[0]
+print("SQL do modelo ......... 200 OK")
+print(f"total_estoque ......... {total}      (resposta certa: 1200)")
+print()
 
-    return file_path.read_text(encoding="utf-8")
-
-
-for caminho in ["anotacoes.txt", "../../.ssh/id_ed25519"]:
-    print(f"> read_file({caminho!r})")
-    try:
-        print(f"  {read_file(caminho)}")
-    except PermissionError as erro:
-        print(f"  PermissionError: {erro}")
+clientes = con.execute(verificador).fetchone()[0]
+print("Verificador independente")
+print(f"clientes_encontrados .. {clientes}")
+print("-> filtro ambiguo: fluxo interrompido antes de responder")
