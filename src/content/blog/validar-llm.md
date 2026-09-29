@@ -67,7 +67,7 @@ A consulta gerada pelo modelo passa por todas as verificações estruturais.
 
 | Validação de estrutura | Validação de verdade |
 |-------------------------|----------------------|
-| O SQL executa sem erro. | Apenas o VALE foi considerada. |
+| O SQL executa sem erro. | Apenas o VALE foi considerado. |
 | As colunas existem. | Nenhum outro cliente entrou no resultado. |
 | Os tipos estão corretos. | A regra de negócio foi respeitada. |
 
