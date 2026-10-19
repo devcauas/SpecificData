@@ -159,7 +159,7 @@ Ordem dos blocos, de cima para baixo:
    uma frase de descrição, e os posts numerados em lista vertical — publicados
    como link, os não publicados em cinza com o título já visível. Mostrar o que
    vem a seguir é o que faz o leitor voltar.
-3. **Últimos posts.** Seis, em lista. Título, descrição, categoria, data.
+3. **Últimos posts.** Três, em lista. Título, descrição, categoria, data.
 4. **Sobre em uma linha** + links (GitHub, LinkedIn, RSS).
 
 Com 3 posts publicados a home tem que parecer intencional, não vazia. Por isso a

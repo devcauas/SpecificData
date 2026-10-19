@@ -9,7 +9,7 @@ import { getPublishedPosts, getSeriesRoster } from '../lib/posts';
 const activeSeries = allSeries.find((s) => s.status === 'em-andamento') ?? null;
 const seriesRoster = activeSeries ? await getSeriesRoster(activeSeries) : [];
 
-const latestPosts = (await getPublishedPosts()).slice(0, 6);
+const latestPosts = (await getPublishedPosts()).slice(0, 3);
 ---
 
 <Base title={site.name} description={site.description}>
