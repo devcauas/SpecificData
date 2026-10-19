@@ -9,7 +9,7 @@ const blog = defineCollection({
       description: z.string().min(50).max(160),
       date: z.coerce.date(),
       updated: z.coerce.date().optional(),
-      category: z.enum(['mcp-agentes', 'apis-integracao', 'bastidores']),
+      category: z.enum(['mcp-agentes', 'apis-integracao', 'machine-learning', 'bastidores']),
       tags: z.array(z.string()).default([]),
       series: z
         .object({

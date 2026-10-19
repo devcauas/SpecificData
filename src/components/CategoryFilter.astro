@@ -153,6 +153,12 @@ const yearGroups = groupByYear ? groupPostsByYear(posts) : null;
     display: none;
   }
 
+  .archive:has(#filter-machine-learning:checked)
+    .posts
+    > li:not([data-category='machine-learning']) {
+    display: none;
+  }
+
   .archive:has(#filter-bastidores:checked) .posts > li:not([data-category='bastidores']) {
     display: none;
   }
@@ -162,6 +168,8 @@ const yearGroups = groupByYear ? groupPostsByYear(posts) : null;
     .year-group:not(:has(li[data-category='mcp-agentes'])),
   .archive:has(#filter-apis-integracao:checked)
     .year-group:not(:has(li[data-category='apis-integracao'])),
+  .archive:has(#filter-machine-learning:checked)
+    .year-group:not(:has(li[data-category='machine-learning'])),
   .archive:has(#filter-bastidores:checked)
     .year-group:not(:has(li[data-category='bastidores'])) {
     display: none;
