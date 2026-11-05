@@ -1,39 +1,11 @@
-import sqlite3
+# Scores atribuídos por um classificador
+scores = [0.8] * 10
 
-con = sqlite3.connect(":memory:")
-con.execute("ATTACH DATABASE ':memory:' AS gold")
-con.execute("""
-    CREATE TABLE gold.cliente_produto_estoque (
-        cliente TEXT,
-        estoque INTEGER
-    )
-""")
-con.executemany(
-    "INSERT INTO gold.cliente_produto_estoque VALUES (?, ?)",
-    [("VALE", 1500), ("INTERVALE", 6000)],
-)
+# Resultados reais: apenas 5 das 10 transações eram fraudes
+y_true = [1, 1, 1, 1, 1, 0, 0, 0, 0, 0]
 
-consulta_do_modelo = """
-SELECT SUM(estoque) AS total_estoque
-FROM gold.cliente_produto_estoque
-WHERE cliente LIKE '%VALE%'
-"""
+score_medio = sum(scores) / len(scores)
+frequencia_real = sum(y_true) / len(y_true)
 
-verificador = """
-SELECT COUNT(DISTINCT cliente) AS clientes_encontrados
-FROM gold.cliente_produto_estoque
-WHERE cliente LIKE '%VALE%'
-"""
-
-print("Pergunta: qual o estoque total do VALE?")
-print()
-
-total = con.execute(consulta_do_modelo).fetchone()[0]
-print("SQL do modelo ......... 200 OK")
-print(f"total_estoque ......... {total}      (resposta certa: 1500)")
-print()
-
-clientes = con.execute(verificador).fetchone()[0]
-print("Verificador independente")
-print(f"clientes_encontrados .. {clientes}")
-print("-> filtro ambiguo: fluxo interrompido antes de responder")
+print(f"Score médio: {score_medio:.0%}")
+print(f"Frequência real de fraude: {frequencia_real:.0%}")
