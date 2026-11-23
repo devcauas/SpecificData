@@ -5,7 +5,7 @@ date: "2026-11-23"
 category: mcp-agentes
 tags: ["llm", "text-to-sql", "databricks", "genie", "avaliacao", "alucinacao"]
 cover: ../../assets/covers/text-to-sql-llm.png
-draft: true
+draft: false
 ---
 
 Seis perguntas. Seis consultas certas, inclusive na pergunta feita para derrubar o modelo.
