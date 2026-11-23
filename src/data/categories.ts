@@ -12,8 +12,8 @@ export interface Category {
   description: string;
   /**
    * Acento semântico da categoria (CLAUDE.md / BRIEF §6): apis-integracao usa
-   * --known (o que o leitor já sabe), mcp-agentes e machine-learning usam --new
-   * (o conceito novo), bastidores fica neutro em --muted. Mesmo valor usado na
+   * --known (o que o leitor já sabe), mcp-agentes usa --new (o conceito novo),
+   * machine-learning usa --gold (dourado), bastidores fica neutro em --muted. Mesmo valor usado na
    * barra de 3px do PostCard e nos tiles da home — centralizado aqui para não
    * divergir.
    */
@@ -40,7 +40,7 @@ export const categories: Category[] = [
     label: 'Machine Learning',
     shortLabel: 'ML',
     description: 'Classificação, métricas, avaliação de modelos.',
-    accent: 'var(--new)',
+    accent: 'var(--gold)',
   },
   {
     slug: 'bastidores',
