@@ -8,16 +8,6 @@ cover: "../../assets/covers/precisao_recall.png"
 draft: true
 ---
 
----
-title: "Precisão e recall: o que os seus modelos de classificação não mostram"
-description: "Entenda precisão e recall a partir do monitoramento de sistemas, onde a comparação falha e por que scores de classificação exigem validação."
-date: "2026-10-26"
-category: "machine-learning"
-tags: ["machine-learning"]
-cover: "../../assets/covers/precisao_recall.png"
-draft: true
----
-
 Você já passou uma semana de plantão recebendo alertas de CPU acima de 90%?
 
 Na segunda-feira, foram 40 alertas. Você investigou cada um e descobriu que apenas 10 correspondiam a problemas reais.

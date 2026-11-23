@@ -10,17 +10,17 @@ novo num conceito conhecido e depois mostra onde a analogia quebra.
 
 ## Convenções que não são óbvias pelo código
 
-- **Categoria é enum fechado de três valores.** Adicionar uma quarta categoria é
-  decisão editorial, não refactor. Pergunte antes.
+- **Categoria é enum fechado de quatro valores.** Adicionar uma quinta categoria
+  é decisão editorial, não refactor. Pergunte antes.
 - **Tag é livre, categoria não.** Não converta uma na outra.
 - **Navegação de post segue a série, não a cronologia.** Em conteúdo sequencial,
   ordem de publicação é ruído.
 - **Os dois acentos são semânticos.** `--known` (azul) marca o conceito que o
   leitor já domina; `--new` (ameixa) marca o conceito novo. Nunca use nenhum dos
   dois como decoração. Os acentos se estendem às categorias, mantendo o
-  significado original: `apis-integracao` usa `--known`, `mcp-agentes` usa
-  `--new`, `bastidores` fica neutro em `--muted`. Nenhum acento aparece fora
-  desse mapeamento.
+  significado original: `apis-integracao` usa `--known`, `mcp-agentes` e
+  `machine-learning` usam `--new`, `bastidores` fica neutro em `--muted`.
+  Nenhum acento aparece fora desse mapeamento.
 - **Zero JS em página de post.** Se uma feature exige JS no post, ela sai.
 - **Card de post tem borda de 1px em `--ink` e fundo `--card`**, ligeiramente
   mais claro que o papel. Continua sem sombra e sem raio grande — a borda é o

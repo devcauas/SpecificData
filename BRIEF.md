@@ -67,7 +67,7 @@ const blog = defineCollection({
       description: z.string().min(50).max(160), // vira meta description e card
       date: z.coerce.date(),
       updated: z.coerce.date().optional(),
-      category: z.enum(['mcp-agentes', 'apis-integracao', 'bastidores']),
+      category: z.enum(['mcp-agentes', 'apis-integracao', 'machine-learning', 'bastidores']),
       tags: z.array(z.string()).default([]),
       series: z
         .object({
@@ -86,9 +86,10 @@ export const collections = { blog };
 
 **Categoria x tag x série** — a distinção que evita o caos no arquivo:
 
-- **Categoria:** taxonomia fechada, uma por post, vira filtro e menu. Três, só.
+- **Categoria:** taxonomia fechada, uma por post, vira filtro e menu. Quatro, só.
   - `mcp-agentes` — MCP, Claude, agentes, tool use
   - `apis-integracao` — REST, OpenAPI, contratos, autenticação
+  - `machine-learning` — classificação, métricas, avaliação de modelos
   - `bastidores` — o que aprendi construindo, incluindo os erros
 - **Tag:** livre, várias por post, alimenta "posts relacionados".
 - **Série:** sequência ordenada. É o que dá ao leitor um caminho em vez de uma pilha.
@@ -234,9 +235,9 @@ auto-hospedadas em `public/fonts/`, `font-display: swap`, subset latin.
 - Foco de teclado visível, `prefers-reduced-motion` respeitado, contraste AA.
 
 Os acentos se estendem às categorias, mantendo o significado original:
-`apis-integracao` usa `--known` (é o que o leitor já sabe), `mcp-agentes` usa
-`--new` (é o conceito novo), `bastidores` fica neutro em `--muted`. Nenhum
-acento aparece fora desse mapeamento.
+`apis-integracao` usa `--known` (é o que o leitor já sabe), `mcp-agentes` e
+`machine-learning` usam `--new` (é o conceito novo), `bastidores` fica neutro
+em `--muted`. Nenhum acento aparece fora desse mapeamento.
 
 ---
 
